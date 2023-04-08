@@ -6,12 +6,14 @@ import java.awt.event.ActionListener;
 
 public class MainMenu {
     protected static JFrame mainFrame;
+    protected static Toolkit tk = Toolkit.getDefaultToolkit();
+    protected static Dimension screenDimension = tk.getScreenSize();
     protected static void setMainMenu(){
-        mainFrame = new JFrame();
+        mainFrame = new JFrame("Головне меню");
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new GridLayout(6,0));
 
-        mainFrame.setSize(500,500);
+        mainFrame.setBounds(screenDimension.width/4,screenDimension.height/4,900,600);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JLabel mainHint = new JLabel("STORE SIMULATOR");
