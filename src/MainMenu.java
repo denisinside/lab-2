@@ -17,13 +17,28 @@ public class MainMenu {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JLabel mainHint = new JLabel("STORE SIMULATOR");
-        mainHint.setBorder(new EmptyBorder(0,180,0,0));
+        mainHint.setHorizontalAlignment(SwingConstants.CENTER);
 
         // КНОПКИ ГОЛОВНОГО МЕНЮ //
         JButton goodsButton = new JButton("Товари");
+        JPanel a = new JPanel(new GridLayout(1,0));
+        a.add(goodsButton);
+        a.setBorder(new EmptyBorder(0,10,10,10));
+
         JButton groupsButton = new JButton("Групи товарів");
+        JPanel b = new JPanel(new GridLayout(1,0));
+        b.add(groupsButton);
+        b.setBorder(new EmptyBorder(0,10,10,10));
+
         JButton searchGoodButton = new JButton("Пошук товарів");
+        JPanel c = new JPanel(new GridLayout(1,0));
+        c.add(searchGoodButton);
+        c.setBorder(new EmptyBorder(0,10,10,10));
+
         JButton showDataButton = new JButton("Вивести дані");
+        JPanel d = new JPanel(new GridLayout(1,0));
+        d.add(showDataButton);
+        d.setBorder(new EmptyBorder(0,10,10,10));
 
         // СТВОРЕННЯ ПАНЕЛЕЙ ДЛЯ ВІДМЕЖУВАННЯ КНОПОК ВІД СТІНОК ВІКНА //
         JPanel eastPanel = new JPanel();
@@ -31,10 +46,10 @@ public class MainMenu {
 
         // ДОДАВАННЯ КНОПОК ДО ПАНЕЛІ КНОПОК //
         buttonPanel.add(mainHint);
-        buttonPanel.add(goodsButton);
-        buttonPanel.add(groupsButton);
-        buttonPanel.add(searchGoodButton);
-        buttonPanel.add(showDataButton);
+        buttonPanel.add(a);
+        buttonPanel.add(b);
+        buttonPanel.add(c);
+        buttonPanel.add(d);
 
         goodsButton.addActionListener(goToGoods);
 
