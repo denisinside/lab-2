@@ -22,17 +22,17 @@ public class Main {
         groupArray.add(furniture);
         groupArray.add(domestics);
 
-        Good monitors = new Good("Монітори", "", "MEIZU", 24599, 267, (short) 1);
-        Good powerbanks = new Good("Павербанки", "", "Hoco", 1599, 6510, (short) 1);
-        Good earphones = new Good("Навушники", "", "Apple corp.", 759, 1578, (short) 1);
+        Good monitors = new Good("Монітори", "", "MEIZU", 24599, 267, (short) 1 , electronics.name);
+        Good powerbanks = new Good("Павербанки", "", "Hoco", 1599, 6510, (short) 1, electronics.name);
+        Good earphones = new Good("Навушники", "", "Apple corp.", 759, 1578, (short) 1, electronics.name);
 
-        Good cupboards = new Good("Шафи", "в", "Меблі Маяк", 16499, 766, (short) 2);
-        Good sofas = new Good("Дивани", "", "Веста корп.", 19599, 108, (short)2);
-        Good chairs = new Good("Табуретки", "", "Київсбкий стандарт", 699, 3565, (short)2);
+        Good cupboards = new Good("Шафи", "в", "Меблі Маяк", 16499, 766, (short) 2, furniture.name);
+        Good sofas = new Good("Дивани", "", "Веста корп.", 19599, 108, (short)2, furniture.name);
+        Good chairs = new Good("Табуретки", "", "Київсбкий стандарт", 699, 3565, (short)2, furniture.name);
 
-        Good microwaves = new Good("Мікрохвильовки", "", "Samsung", 4799, 1477, (short)3);
-        Good fridges = new Good("Холодильники", "", "Bosch", 17599, 227, (short)3);
-        Good hoovers = new Good("Пилососи", "", "Siemens", 6899, 1222, (short)3);
+        Good microwaves = new Good("Мікрохвильовки", "", "Samsung", 4799, 1477, (short)3, domestics.name);
+        Good fridges = new Good("Холодильники", "", "Bosch", 17599, 227, (short)3, domestics.name);
+        Good hoovers = new Good("Пилососи", "", "Siemens", 6899, 1222, (short)3, domestics.name);
 
         goodsArray.add(monitors);
         goodsArray.add(powerbanks);
