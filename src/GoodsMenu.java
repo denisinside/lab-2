@@ -55,63 +55,53 @@ public class GoodsMenu {
             goodsFrame.add(searchPanel);
             goodsFrame.add(js); */
 
+        // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
         goodsFrame.setLayout(new BorderLayout());
         goodsFrame.setBounds(screenDimension.width/4,screenDimension.height/4,1200,900);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JPanel frameTop = new JPanel(new GridBagLayout());
-        frameTop.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        //ВЕРХНЯ ЧАСТИНА
+        JPanel frameTop = new JPanel(new GridLayout(2,0));
         frameTop.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8));
-        frameTop.setMaximumSize(new Dimension(Integer.MAX_VALUE, goodsFrame.getHeight()/16));
-        JPanel logo = new JPanel();
-        logo.setPreferredSize(new Dimension((int)(goodsFrame.getWidth()*0.9), goodsFrame.getHeight()/16));
-        logo.setMaximumSize(new Dimension(Integer.MAX_VALUE, goodsFrame.getHeight()/16));
-        logo.setBackground(Color.cyan);
-        logo.add(new JLabel("Наукма магаз"));
-
-        frameTop.add(logo, getSetup(0,0,5,1));
+        //ТЕКСТ "НАУКМА МАГАЗ"
+        JPanel logoPanel = new JPanel();
+        logoPanel.setBackground(Color.cyan);
+        JLabel logo = new JLabel("Наукма магаз");
+        logo.setFont(new Font("Arial Black", Font.BOLD, 32));
+        logoPanel.add(logo);
+        frameTop.add(logoPanel);
+        //НИЖНЯ ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ
+        JPanel searchPanel = new JPanel(new GridLayout(1,2));
+        JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
         searchField = new JTextField("Пошук...");
-        searchField.setPreferredSize(new Dimension((int)(goodsFrame.getWidth()/5*2.9), goodsFrame.getHeight()/16));
-        searchField.setMaximumSize(new Dimension(Integer.MAX_VALUE, goodsFrame.getHeight()/16));
-        frameTop.add(searchField, getSetup(0,1,3,1));
+        searchPanel.add(searchField);
         search = new JButton("Шукати");
-        search.setPreferredSize(new Dimension(goodsFrame.getWidth()/5, goodsFrame.getHeight()/16));
-        search.setMaximumSize(new Dimension(Integer.MAX_VALUE, goodsFrame.getHeight()/16));
-        frameTop.add(search, getSetup(3,1,1,1));
+        buttonsPanel.add(search);
         back = new JButton("Назад");
-        back.setPreferredSize(new Dimension(goodsFrame.getWidth()/5, goodsFrame.getHeight()/16));
-        back.setMaximumSize(new Dimension(Integer.MAX_VALUE, goodsFrame.getHeight()/16));
-        frameTop.add(back, getSetup(4, 1, 1, 1));
+        buttonsPanel.add(back);
+        searchPanel.add(buttonsPanel);
+        frameTop.add(searchPanel);
 
-
+        //СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ
         JPanel frameMiddle = new JPanel(new FlowLayout());
         frameMiddle.setBounds(0,goodsFrame.getHeight()/6,goodsFrame.getWidth(), goodsFrame.getHeight()/8*3);
         frameMiddle.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8*3));
 
+        //НИЖНЯ ЧАСТИНА З КНОПКАМИ ВИДАЛИТИ І ДОДАТИ
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
-        frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8));
+        frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
         add = new JButton("Додати");
         delete = new JButton("Видалити");
         frameBottom.add(add);
         frameBottom.add(delete);
 
+        //ЯК ЖЕ ХОЧЕТЬСЯ ТЯНОЧКУ
         goodsFrame.add(frameTop, BorderLayout.NORTH);
         goodsFrame.add(frameMiddle, BorderLayout.CENTER);
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
 
-    }
-    private static GridBagConstraints getSetup(int gridx, int gridy, int gridwidth, int gridheight){
-        GridBagConstraints gbs = new GridBagConstraints();
-        gbs.weightx = 0;
-        gbs.weighty = 0;
-        gbs.gridx = gridx;
-        gbs.gridy = gridy;
-        gbs.gridwidth = gridwidth;
-        gbs.gridheight = gridheight;
-        gbs.fill = GridBagConstraints.BOTH;
-        return gbs;
     }
     private static String[][] setParameters(){
         String[][] goodParams = new String[Main.goodsArray.size()][parameters.length];
