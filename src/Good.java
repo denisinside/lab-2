@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Good {
+public class Good implements Serializable {
     
     // Object fields
     String name;

@@ -21,6 +21,7 @@ public class GoodsMenu {
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
         goodsFrame.setLayout(new BorderLayout());
+        goodsFrame.addWindowListener(new ShopWindowListener());
         goodsFrame.setBounds(MainMenu.screenDimension.width/4,MainMenu.screenDimension.height/4,1200,900);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,8 +52,7 @@ public class GoodsMenu {
 
         // СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
         JPanel frameMiddle = new JPanel(new FlowLayout());
-        frameMiddle.setBounds(0,goodsFrame.getHeight()/6,goodsFrame.getWidth(), goodsFrame.getHeight()/8*3);
-        frameMiddle.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8*6));
+        frameMiddle.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8*6*Shop.goodsArray.size()/10));
         frameMiddle.setBackground(new Color(252, 233, 174));
         for (Good good : Shop.goodsArray) frameMiddle.add(goodPanel(good));
 
@@ -65,8 +65,9 @@ public class GoodsMenu {
         frameBottom.add(delete);
 
         // НЕ ПОМОГЛО.... //
-        JScrollPane j = new JScrollPane(frameMiddle);
-        j.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane j = new JScrollPane(frameMiddle, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        j.setPreferredSize(new Dimension(goodsFrame.getWidth(), Integer.MAX_VALUE));
+
 
         // А ЧОМУ НЕ ХЛОПЦЯ( //
         goodsFrame.add(frameTop, BorderLayout.NORTH);

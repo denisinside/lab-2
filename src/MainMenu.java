@@ -11,6 +11,7 @@ public class MainMenu {
     protected static void setMainMenu(){
 
         mainFrame = new JFrame("Головне меню");
+        mainFrame.addWindowListener(new ShopWindowListener());
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new GridLayout(6,0,0,20));
 
