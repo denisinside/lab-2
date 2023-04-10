@@ -38,6 +38,8 @@ public class MainMenu {
         buttonPanel.add(showDataButton);
 
         goodsButton.addActionListener(goToGoods);
+        groupsButton.addActionListener(goToGroups);
+        showDataButton.addActionListener(goToShow);
 
         // ДОДАВАННЯ ОБ'ЄКТІВ ДО ГОЛОВНОЇ ПАНЕЛІ //
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
@@ -62,14 +64,18 @@ public class MainMenu {
         private static final ActionListener goToGroups = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                mainFrame.setVisible(false);
+                GroupsMenu gm = new GroupsMenu();
+                gm.setGroupsMenu();
             }
         };
 
+    // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ //
         private static final ActionListener goToShow = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ShowMenu sm = new ShowMenu();
+                sm.fuck();
             }
         };
 }

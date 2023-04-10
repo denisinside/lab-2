@@ -49,5 +49,18 @@ public class Shop {
         goodsArray.add(microwaves);
         goodsArray.add(fridges);
         goodsArray.add(hoovers);
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short) 3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short) 3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
     }
 }
