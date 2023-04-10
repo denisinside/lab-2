@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 public class MainMenu {
     protected static JFrame mainFrame;
-    protected static Toolkit tk = Toolkit.getDefaultToolkit();
-    protected static Dimension screenDimension = tk.getScreenSize();
+    protected static final Toolkit tk = Toolkit.getDefaultToolkit();
+    protected static final Dimension screenDimension = tk.getScreenSize();
     protected static void setMainMenu(){
 
         mainFrame = new JFrame("Головне меню");

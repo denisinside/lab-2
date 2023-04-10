@@ -1,3 +1,5 @@
+import javafx.scene.layout.Border;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -5,8 +7,6 @@ import java.util.Arrays;
 public class GoodsMenu {
 
     private static JFrame goodsFrame;
-    private static final Toolkit tk = Toolkit.getDefaultToolkit();
-    private static final Dimension screenDimension = tk.getScreenSize();
     private static JMenuBar goodMenuBar;
     private static JButton add, edit, delete, search, back;
     private static JTextField searchField;
@@ -58,7 +58,7 @@ public class GoodsMenu {
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
         goodsFrame.setLayout(new BorderLayout());
-        goodsFrame.setBounds(screenDimension.width/4,screenDimension.height/4,1200,900);
+        goodsFrame.setBounds(MainMenu.screenDimension.width/4,MainMenu.screenDimension.height/4,1200,900);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         //ВЕРХНЯ ЧАСТИНА
@@ -86,7 +86,9 @@ public class GoodsMenu {
         //СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ
         JPanel frameMiddle = new JPanel(new FlowLayout());
         frameMiddle.setBounds(0,goodsFrame.getHeight()/6,goodsFrame.getWidth(), goodsFrame.getHeight()/8*3);
-        frameMiddle.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8*3));
+        frameMiddle.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8*6));
+        frameMiddle.setBackground(new Color(252, 233, 174));
+        for (Good good : Shop.goodsArray) frameMiddle.add(goodPanel(good));
 
         //НИЖНЯ ЧАСТИНА З КНОПКАМИ ВИДАЛИТИ І ДОДАТИ
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
@@ -98,13 +100,34 @@ public class GoodsMenu {
 
         //ЯК ЖЕ ХОЧЕТЬСЯ ТЯНОЧКУ
         goodsFrame.add(frameTop, BorderLayout.NORTH);
-        goodsFrame.add(frameMiddle, BorderLayout.CENTER);
+        goodsFrame.add(new JScrollPane(frameMiddle), BorderLayout.CENTER);
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
 
     }
+    private static JPanel goodPanel(Good good){
+        JPanel goodPanel = new JPanel(new BorderLayout());
+        goodPanel.setBackground(Color.GRAY);
+        goodPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        goodPanel.setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
+        goodPanel.add(good.image, BorderLayout.NORTH);
+
+        JTextArea goodDescription = new JTextArea(good.toString());
+        goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JScrollPane description = new JScrollPane(goodDescription);
+        goodPanel.add(description, BorderLayout.CENTER);
+
+        JPanel buttons = new JPanel(new GridLayout(1,2));
+        edit = new JButton("Редагувати");
+        buttons.add(edit);
+        JCheckBox toDelete = new JCheckBox();
+        buttons.add(toDelete);
+        goodPanel.add(buttons, BorderLayout.SOUTH);
+
+        return goodPanel;
+    }
     private static String[][] setParameters(){
-        String[][] goodParams = new String[Main.goodsArray.size()][parameters.length];
+        String[][] goodParams = new String[Shop.goodsArray.size()][parameters.length];
 
         String n = "";
         String d = "";
@@ -113,15 +136,15 @@ public class GoodsMenu {
         String q = "";
         String g = "";
         short j = 0;
-        for(int i=0; i<Main.goodsArray.size(); i++){
+        for(int i=0; i<Shop.goodsArray.size(); i++){
 
             if(j<parameters.length){
-                n = Main.goodsArray.get(i).name;
-                d = Main.goodsArray.get(i).description;
-                p = Main.goodsArray.get(i).producer;
-                pr = String.valueOf(Main.goodsArray.get(i).price);
-                q = String.valueOf(Main.goodsArray.get(i).amount);
-                g = Main.goodsArray.get(i).groupName;
+                n = Shop.goodsArray.get(i).name;
+                d = Shop.goodsArray.get(i).description;
+                p = Shop.goodsArray.get(i).producer;
+                pr = String.valueOf(Shop.goodsArray.get(i).price);
+                q = String.valueOf(Shop.goodsArray.get(i).amount);
+                g = Shop.goodsArray.get(i).groupName;
 
                 goodParams[i][j] = Arrays.toString(new String[]{n + " " + d + " " + p + " " + pr + " " + q + " " + g});
             }

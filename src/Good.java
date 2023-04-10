@@ -1,3 +1,8 @@
+import javax.swing.*;
+import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class Good {
     
     // Object fields
@@ -8,6 +13,8 @@ public class Good {
     int amount;
     short groupNum;
     String groupName;
+    JLabel image;
+   static JLabel defaultImg;
 
     public Good(String name, String description, String producer, int price, int amount, short groupNum, String groupName) {
         this.name = name;
@@ -17,14 +24,30 @@ public class Good {
         this.amount = amount;
         this.groupNum = groupNum;
         this.groupName = groupName;
+        image = new JLabel(defaultImg.getIcon());
     }
+    public void setImage(String link) throws MalformedURLException{
+        URL url = new URL(link);
+        Image img = MainMenu.tk.createImage(url);
 
+        Image scaledImage = img.getScaledInstance(150, 120, Image.SCALE_SMOOTH);
+
+        image = new JLabel(new ImageIcon(scaledImage));
+    }
+    static void setDefaultImage(String link) throws MalformedURLException {
+        URL url = new URL(link);
+        Image img = MainMenu.tk.createImage(url);
+
+        Image scaledImage = img.getScaledInstance(150, 120, Image.SCALE_SMOOTH);
+
+        defaultImg = new JLabel(new ImageIcon(scaledImage));
+    }
     @Override
     public String toString() {
-        return "Назва: " + name +
-                ", Опис: " + description +
-                ", Виробник: " + producer +
-                ", Ціна за одиницю: " + price +
-                ", Кількість на складі: " + amount;
+        return  name +
+                "\nОпис: " + description +
+                "\nВиробник: " + producer +
+                "\nЦіна за одиницю: " + price +
+                "\nКількість на складі: " + amount;
     }
 }
