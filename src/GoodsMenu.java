@@ -1,23 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GoodsMenu {
 
-    private static JFrame goodsFrame;
-    private static Toolkit tk = Toolkit.getDefaultToolkit();
-    private static Dimension screenDimension = tk.getScreenSize();
+    public static JFrame goodsFrame;
     private static JMenuBar goodMenuBar;
     private static JButton add, edit, delete, search, back;
     private static JTextField searchField;
-    private static JTextField searchGoodField;
-    private static JLabel functionName;
-    private static JTable goodsTable;
-    private static String[] parameters;
-    private static String[][] data;
+    private static ArrayList<GoodPanel> goodPanels;
+    private static  JPanel goodListPanel;
 
     protected static void setGoodsMenu(){
-
+        goodPanels = new ArrayList<>();
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
         goodsFrame.setLayout(new BorderLayout());
@@ -51,21 +49,29 @@ public class GoodsMenu {
         frameTop.add(searchPanel);
 
         // СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
-        JPanel frameMiddle = new JPanel(new FlowLayout());
-        frameMiddle.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8*6*Shop.goodsArray.size()/10));
-        frameMiddle.setBackground(new Color(252, 233, 174));
-        for (Good good : Shop.goodsArray) frameMiddle.add(goodPanel(good));
+        goodListPanel = new JPanel(new FlowLayout());
+        int y = Shop.goodsArray.size()%4;
+        y = y != 0 ? 1 : 0;
+        y = (int) (goodsFrame.getHeight()/8*6*(Shop.goodsArray.size()+y)/8);
+        goodListPanel.setPreferredSize(new Dimension(goodsFrame.getWidth(), y));
+        goodListPanel.setBackground(new Color(252, 233, 174));
+        for (Good good : Shop.goodsArray){
+            GoodPanel gp = new GoodPanel(good);
+            goodListPanel.add(gp);
+            goodPanels.add(gp);
+        }
 
         // НИЖНЯ ЧАСТИНА З КНОПКАМИ "ВИДАЛИТИ І ДОДАТИ" //
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
         add = new JButton("Додати");
         delete = new JButton("Видалити");
+        delete.addActionListener(deleteSelectedGoods);
         frameBottom.add(add);
         frameBottom.add(delete);
 
         // НЕ ПОМОГЛО.... //
-        JScrollPane j = new JScrollPane(frameMiddle, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane j = new JScrollPane(goodListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         j.setPreferredSize(new Dimension(goodsFrame.getWidth(), Integer.MAX_VALUE));
 
 
@@ -76,28 +82,61 @@ public class GoodsMenu {
         goodsFrame.setVisible(true);
 
     }
-    private static JPanel goodPanel(Good good){
-        JPanel goodPanel = new JPanel(new BorderLayout());
-        goodPanel.setBackground(Color.GRAY);
-        goodPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        goodPanel.setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
-        goodPanel.add(good.image, BorderLayout.NORTH);
+    private static class GoodPanel extends JPanel {
+        private Good good;
+        private JButton edit;
+        private JCheckBox toDelete;
 
-        JTextArea goodDescription = new JTextArea(good.toString());
-        goodDescription.setEditable(false);
-        goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-        JScrollPane description = new JScrollPane(goodDescription);
-        goodPanel.add(description, BorderLayout.CENTER);
+        public GoodPanel(Good good) {
+            setLayout(new BorderLayout());
+            this.good = good;
+            setBackground(Color.GRAY);
+            setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
+            add(good.image, BorderLayout.NORTH);
 
-        JPanel buttons = new JPanel(new GridLayout(1,2));
-        edit = new JButton("Редагувати");
-        buttons.add(edit);
-        JCheckBox toDelete = new JCheckBox();
-        buttons.add(toDelete);
-        goodPanel.add(buttons, BorderLayout.SOUTH);
+            JTextArea goodDescription = new JTextArea(good.toString());
+            goodDescription.setEditable(false);
+            goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+            JScrollPane description = new JScrollPane(goodDescription);
+            add(description, BorderLayout.CENTER);
 
-        return goodPanel;
+            JPanel buttons = new JPanel(new GridLayout(1,2));
+            edit = new JButton("Редагувати");
+            buttons.add(edit);
+            toDelete = new JCheckBox();
+            buttons.add(toDelete);
+            add(buttons, BorderLayout.SOUTH);
+
+        }
+        public Good getGood() {
+            return good;
+        }
+        public boolean isToDeleteSelected() {
+            return toDelete.isSelected();
+        }
     }
+
+    private static final ActionListener deleteSelectedGoods = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
+            while (goodPanelIterator.hasNext()){
+                GoodPanel gp = goodPanelIterator.next();
+                System.out.println(gp.isToDeleteSelected());
+                if (gp.isToDeleteSelected()){
+                    goodPanelIterator.remove();
+                    Shop.goodsArray.remove(gp.getGood());
+                    goodListPanel.remove(gp);
+                }
+            }
+            goodListPanel.revalidate();
+            goodListPanel.repaint();
+
+        }
+    };
+
+
 //    private static String[][] setParameters(){
 //        String[][] goodParams = new String[Shop.goodsArray.size()][parameters.length];
 //

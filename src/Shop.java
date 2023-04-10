@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.FileOutputStream;
@@ -32,7 +33,17 @@ public class Shop {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void addGood(String name, String description, String producer, int price, int amount, short groupNum, String groupName, String url)  {
+        Good good = new Good(name, description, producer, price, amount, groupNum, groupName);
+        try {
+            if (url != null) good.setImage(url);
+        }catch (MalformedURLException e){
+            JOptionPane.showMessageDialog(GoodsMenu.goodsFrame,"Посилання не підходить. Встановлено картинку за замовчуванням.");
+            good.image = new JLabel(Good.defaultImg.getIcon());
+        }
+        goodsArray.add(good);
     }
 }
      class ShopWindowListener implements WindowListener {
