@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EditGood {
     private JFrame editFrame;
@@ -12,13 +14,13 @@ public class EditGood {
     private JTextField producerField;
     private JLabel priceLabel;
     private JTextField priceField;
-
+    private Good good;
     private JButton OK;
     private JButton reset;
 
 
     public JFrame setEditMenu(Good g){
-
+        good=g;
         editFrame = new JFrame("Редагування характеристик товару");
         editFrame.setLayout(new BorderLayout());
         editFrame.setBounds(MainMenu.screenDimension.width/3,MainMenu.screenDimension.height/4,500,600);
@@ -43,11 +45,27 @@ public class EditGood {
         editPanel.add(priceLabel);
         editPanel.add(priceField);
 
-
-
         JPanel bp = new JPanel(new GridLayout(1,2,30,0));
         OK = new JButton("OK");
+        OK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane editPerformed = new JOptionPane("Товар успішно змінено!", JOptionPane.INFORMATION_MESSAGE);
+                editPerformed.setVisible(true);
+                editGood();
+            }
+        });
+
         reset = new JButton("Скинути");
+        reset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nameField.setText(g.name);
+                descriptionArea.setText(g.description);
+                producerField.setText(g.producer);
+                priceField.setText(String.valueOf(g.price));
+            }
+        });
         bp.add(OK);
         bp.add(reset);
 
@@ -58,6 +76,14 @@ public class EditGood {
     }
 
     public void editGood() {
+        String newName = nameField.getText();
+        String newDescription = descriptionArea.getText();
+        String newProducer = producerField.getText();
+        String newPrice = priceField.getText();
 
+        good.setName(newName);
+        good.setDescription(newDescription);
+        good.setProducer(newProducer);
+        good.setPrice(Integer.parseInt(newPrice));
     }
 }

@@ -16,6 +16,22 @@ public class Good {
     JLabel image;
     static JLabel defaultImg;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public Good(String name, String description, String producer, int price, int amount, short groupNum, String groupName) {
         this.name = name;
         this.description = description;
