@@ -50,9 +50,9 @@ public class EditGood {
         OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane editPerformed = new JOptionPane("Товар успішно змінено!", JOptionPane.INFORMATION_MESSAGE);
-                editPerformed.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Товар успішно змінено!", "Success",JOptionPane.INFORMATION_MESSAGE);
                 editGood();
+                GoodsMenu.setGoodsMenu();
             }
         });
 
