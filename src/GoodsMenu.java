@@ -36,6 +36,7 @@ public class GoodsMenu {
         logoPanel.add(logo);
         frameTop.add(logoPanel);
 
+
         // НИЖНЯ ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ //
         JPanel searchPanel = new JPanel(new GridLayout(1,2));
         JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
