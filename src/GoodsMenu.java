@@ -31,7 +31,7 @@ public class GoodsMenu {
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.cyan);
         JLabel logo = new JLabel("Вибір Товарів");
-        logo.setForeground(Color.YELLOW);
+        logo.setForeground(Color.BLACK);
         logo.setFont(new Font("Arial Black", Font.BOLD, 32));
         logoPanel.add(logo);
         frameTop.add(logoPanel);

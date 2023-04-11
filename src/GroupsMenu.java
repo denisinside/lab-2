@@ -120,12 +120,9 @@ public class GroupsMenu {
     }
     private static class ProductGroupTree extends JPanel {
 
-
         public ProductGroupTree()  {
-
-            root = new DefaultMutableTreeNode("Product Groups");
+            root = new DefaultMutableTreeNode("АТБ");
             setNode();
-
 
             productTree = new JTree(root);
             productTree.setBackground(new Color(252, 233, 174));
