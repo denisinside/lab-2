@@ -10,7 +10,7 @@ public class GoodsMenu {
     private static JFrame goodsFrame;
     private static Toolkit tk = Toolkit.getDefaultToolkit();
     private static Dimension screenDimension = tk.getScreenSize();
-    private static JButton add, edit, delete, search, back;
+    private static JButton add, delete, search, back;
     private static JTextField searchField;
     private static ArrayList<GoodPanel> goodPanels;
     private static JPanel middlePanel;
@@ -106,6 +106,7 @@ public class GoodsMenu {
 
             JPanel buttons = new JPanel(new GridLayout(1,2));
             edit = new JButton("Редагувати");
+            edit.addActionListener(editSelected);
             buttons.add(edit);
             toDelete = new JCheckBox();
             buttons.add(toDelete);
@@ -135,6 +136,14 @@ public class GoodsMenu {
             middlePanel.revalidate();
             middlePanel.repaint();
 
+        }
+    };
+
+    private static final ActionListener editSelected = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            EditGood ed = new EditGood();
+            ed.setEditMenu();
         }
     };
 }
