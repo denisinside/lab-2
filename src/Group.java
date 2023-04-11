@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-public class Group implements Serializable {
+public class Group {
     String name;
     String description;
 

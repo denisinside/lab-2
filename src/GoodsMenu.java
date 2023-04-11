@@ -7,20 +7,19 @@ import java.util.Iterator;
 
 public class GoodsMenu {
 
-    public static JFrame goodsFrame;
+    private static JFrame goodsFrame;
     private static Toolkit tk = Toolkit.getDefaultToolkit();
     private static Dimension screenDimension = tk.getScreenSize();
-    private static JButton add, edit, delete, searchButton, back;
+    private static JButton add, edit, delete, search, back;
     private static JTextField searchField;
     private static ArrayList<GoodPanel> goodPanels;
     private static JPanel middlePanel;
-    protected static void setGoodsMenu(Rectangle bounds){
+    protected static void setGoodsMenu(){
 
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
-        goodsFrame.addWindowListener(new ShopWindowListener());
         goodsFrame.setLayout(new BorderLayout());
-        goodsFrame.setBounds(bounds);
+        goodsFrame.setBounds(MainMenu.screenDimension.width/4,MainMenu.screenDimension.height/4,1200,900);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // ВЕРХНЯ ЧАСТИНА //
@@ -31,33 +30,30 @@ public class GoodsMenu {
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.cyan);
         JLabel logo = new JLabel("Вибір Товарів");
-        logo.setForeground(Color.BLACK);
+        logo.setForeground(Color.YELLOW);
         logo.setFont(new Font("Arial Black", Font.BOLD, 32));
         logoPanel.add(logo);
         frameTop.add(logoPanel);
-
 
         // НИЖНЯ ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ //
         JPanel searchPanel = new JPanel(new GridLayout(1,2));
         JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
         searchField = new JTextField("Пошук...");
         searchPanel.add(searchField);
-        searchButton = new JButton("Шукати");
-        searchButton.addActionListener(startSearch);
-        buttonsPanel.add(searchButton);
+        search = new JButton("Шукати");
+        buttonsPanel.add(search);
         back = new JButton("Назад");
-        back.addActionListener(goToMenu);
         buttonsPanel.add(back);
         searchPanel.add(buttonsPanel);
         frameTop.add(searchPanel);
 
-        // СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
+// СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
 
         int goodPanelWidth = goodsFrame.getWidth() / 5;
         int numColumns = goodsFrame.getWidth() / (goodPanelWidth + 20); // Add 20 for spacing
 
         middlePanel = new JPanel(new GridLayout(0, numColumns, 20, 20));
-        middlePanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        middlePanel.setBackground(new Color(252, 233, 174));
 
         goodPanels = new ArrayList<>();
         for (Good good : Shop.goodsArray){
@@ -68,8 +64,6 @@ public class GoodsMenu {
 
         JPanel frameMiddleWrapper = new JPanel(new BorderLayout());
         frameMiddleWrapper.add(middlePanel, BorderLayout.NORTH);
-        middlePanel.setBackground(new Color(252, 233, 174));
-        frameMiddleWrapper.setBackground(new Color(252, 233, 174));
 
         JScrollPane frameMiddleScroll = new JScrollPane(frameMiddleWrapper);
         frameMiddleScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -125,31 +119,6 @@ public class GoodsMenu {
             return toDelete.isSelected();
         }
     }
-    private static final ActionListener startSearch = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String searched = searchField.getText();
-            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
-            middlePanel.removeAll();
-            while (goodPanelIterator.hasNext()){
-                GoodPanel gp = goodPanelIterator.next();
-                if (gp.good.name.toLowerCase().startsWith(searched.toLowerCase())){
-                    middlePanel.add(gp);
-                }
-            }
-            middlePanel.revalidate();
-            middlePanel.repaint();
-
-        }
-    };
-    private static final ActionListener goToMenu = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            goodsFrame.setVisible(false);
-            MainMenu.mainFrame.setVisible(true);
-            MainMenu.mainFrame.setBounds(goodsFrame.getBounds());
-        }
-    };
     private static final ActionListener deleteSelectedGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
