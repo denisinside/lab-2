@@ -46,9 +46,9 @@ public class Good implements Serializable {
     @Override
     public String toString() {
         return  name +
-                "\nОпис: " + description +
-                "\nВиробник: " + producer +
-                "\nЦіна за одиницю: " + price +
-                "\nКількість на складі: " + amount;
+                "\n Опис: " + description +
+                "\n Виробник: " + producer +
+                "\n Ціна за одиницю: " + price +
+                "\n Кількість на складі: " + amount;
     }
 }

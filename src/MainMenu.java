@@ -13,9 +13,10 @@ public class MainMenu {
         mainFrame = new JFrame("Головне меню");
         mainFrame.addWindowListener(new ShopWindowListener());
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10,30,10,30));
         JPanel buttonPanel = new JPanel(new GridLayout(6,0,0,20));
 
-        mainFrame.setBounds(screenDimension.width/4,screenDimension.height/4,900,600);
+        mainFrame.setBounds(screenDimension.width/5,screenDimension.height/7,1200,900);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JLabel mainHint = new JLabel("STORE SIMULATOR");
@@ -27,9 +28,6 @@ public class MainMenu {
         JButton searchGoodButton = new JButton("Пошук товарів");
         JButton showDataButton = new JButton("Вивести дані");
 
-        // СТВОРЕННЯ ПАНЕЛЕЙ ДЛЯ ВІДМЕЖУВАННЯ КНОПОК ВІД СТІНОК ВІКНА //
-        JPanel eastPanel = new JPanel();
-        JPanel westPanel = new JPanel();
 
         // ДОДАВАННЯ КНОПОК ДО ПАНЕЛІ КНОПОК //
         buttonPanel.add(mainHint);
@@ -44,8 +42,6 @@ public class MainMenu {
 
         // ДОДАВАННЯ ОБ'ЄКТІВ ДО ГОЛОВНОЇ ПАНЕЛІ //
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
-        mainPanel.add(eastPanel, BorderLayout.EAST);
-        mainPanel.add(westPanel, BorderLayout.WEST);
 
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
@@ -58,7 +54,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainFrame.setVisible(false);
-                GoodsMenu.setGoodsMenu();
+                GoodsMenu.setGoodsMenu(mainFrame.getBounds());
             }
         };
 
@@ -66,12 +62,12 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainFrame.setVisible(false);
-                GroupsMenu gm = new GroupsMenu();
-                gm.setGroupsMenu();
+                GroupsMenu.setGroupsMenu(mainFrame.getBounds());
             }
         };
 
-    // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ //
+    // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ
+    // цирк
         private static final ActionListener goToShow = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -8,4 +8,9 @@ public class Group implements Serializable {
         this.name = name;
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return name + "   (" + description + ')';
+    }
 }

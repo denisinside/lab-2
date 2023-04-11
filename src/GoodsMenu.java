@@ -3,24 +3,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class GoodsMenu {
 
-    private static JFrame goodsFrame;
+    public static JFrame goodsFrame;
     private static Toolkit tk = Toolkit.getDefaultToolkit();
     private static Dimension screenDimension = tk.getScreenSize();
-    private static JButton add, edit, delete, search, back;
+    private static JButton add, edit, delete, searchButton, back;
     private static JTextField searchField;
     private static ArrayList<GoodPanel> goodPanels;
     private static JPanel middlePanel;
-    protected static void setGoodsMenu(){
+    protected static void setGoodsMenu(Rectangle bounds){
 
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
+        goodsFrame.addWindowListener(new ShopWindowListener());
         goodsFrame.setLayout(new BorderLayout());
-        goodsFrame.setBounds(MainMenu.screenDimension.width/4,MainMenu.screenDimension.height/4,1200,900);
+        goodsFrame.setBounds(bounds);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // ВЕРХНЯ ЧАСТИНА //
@@ -41,20 +41,22 @@ public class GoodsMenu {
         JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
         searchField = new JTextField("Пошук...");
         searchPanel.add(searchField);
-        search = new JButton("Шукати");
-        buttonsPanel.add(search);
+        searchButton = new JButton("Шукати");
+        searchButton.addActionListener(startSearch);
+        buttonsPanel.add(searchButton);
         back = new JButton("Назад");
+        back.addActionListener(goToMenu);
         buttonsPanel.add(back);
         searchPanel.add(buttonsPanel);
         frameTop.add(searchPanel);
 
-// СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
+        // СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
 
         int goodPanelWidth = goodsFrame.getWidth() / 5;
         int numColumns = goodsFrame.getWidth() / (goodPanelWidth + 20); // Add 20 for spacing
 
         middlePanel = new JPanel(new GridLayout(0, numColumns, 20, 20));
-        middlePanel.setBackground(new Color(252, 233, 174));
+        middlePanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
         goodPanels = new ArrayList<>();
         for (Good good : Shop.goodsArray){
@@ -65,6 +67,8 @@ public class GoodsMenu {
 
         JPanel frameMiddleWrapper = new JPanel(new BorderLayout());
         frameMiddleWrapper.add(middlePanel, BorderLayout.NORTH);
+        middlePanel.setBackground(new Color(252, 233, 174));
+        frameMiddleWrapper.setBackground(new Color(252, 233, 174));
 
         JScrollPane frameMiddleScroll = new JScrollPane(frameMiddleWrapper);
         frameMiddleScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -120,6 +124,31 @@ public class GoodsMenu {
             return toDelete.isSelected();
         }
     }
+    private static final ActionListener startSearch = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String searched = searchField.getText();
+            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
+            middlePanel.removeAll();
+            while (goodPanelIterator.hasNext()){
+                GoodPanel gp = goodPanelIterator.next();
+                if (gp.good.name.toLowerCase().startsWith(searched.toLowerCase())){
+                    middlePanel.add(gp);
+                }
+            }
+            middlePanel.revalidate();
+            middlePanel.repaint();
+
+        }
+    };
+    private static final ActionListener goToMenu = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            goodsFrame.setVisible(false);
+            MainMenu.mainFrame.setVisible(true);
+            MainMenu.mainFrame.setBounds(goodsFrame.getBounds());
+        }
+    };
     private static final ActionListener deleteSelectedGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
