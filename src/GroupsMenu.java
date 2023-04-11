@@ -117,7 +117,6 @@ public class GroupsMenu {
             groupIcon = new ImageIcon(MainMenu.tk.createImage(new URL("https://cdn-icons-png.flaticon.com/512/3712/3712174.png")).getScaledInstance(59, 50, Image.SCALE_SMOOTH));
             goodIcon = new ImageIcon(MainMenu.tk.createImage(new URL("https://cdn-icons-png.flaticon.com/512/962/962863.png")).getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         }catch (MalformedURLException ignored){}
-
     }
     private static class ProductGroupTree extends JPanel {
 
