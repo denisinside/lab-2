@@ -6,9 +6,4 @@ public class Group {
         this.name = name;
         this.description = description;
     }
-
-    @Override
-    public String toString() {
-        return name + "   (" + description + ')';
-    }
 }

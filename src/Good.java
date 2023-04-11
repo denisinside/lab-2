@@ -61,9 +61,9 @@ public class Good {
     @Override
     public String toString() {
         return  name +
-                "\n Опис: " + description +
-                "\n Виробник: " + producer +
-                "\n Ціна за одиницю: " + price +
-                "\n Кількість на складі: " + amount;
+                "\nОпис: " + description +
+                "\nВиробник: " + producer +
+                "\nЦіна за одиницю: " + price +
+                "\nКількість на складі: " + amount;
     }
 }
