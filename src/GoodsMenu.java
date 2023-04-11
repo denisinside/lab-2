@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +21,7 @@ public class GoodsMenu {
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
         goodsFrame.setLayout(new BorderLayout());
-        goodsFrame.setBounds(MainMenu.screenDimension.width/4,MainMenu.screenDimension.height/4,1200,900);
+        goodsFrame.setBounds((int)(MainMenu.screenDimension.width/5.5),MainMenu.screenDimension.height/10,1200,900);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // ВЕРХНЯ ЧАСТИНА //
@@ -28,9 +30,9 @@ public class GoodsMenu {
 
         // ТЕКСТ "НАУКМА МАГАЗ" //
         JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(Color.cyan);
+        logoPanel.setBackground(Color.WHITE);
         JLabel logo = new JLabel("Вибір Товарів");
-        logo.setForeground(Color.YELLOW);
+        logo.setForeground(Color.BLACK);
         logo.setFont(new Font("Arial Black", Font.BOLD, 32));
         logoPanel.add(logo);
         frameTop.add(logoPanel);
@@ -47,7 +49,7 @@ public class GoodsMenu {
         searchPanel.add(buttonsPanel);
         frameTop.add(searchPanel);
 
-// СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
+        // СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
 
         int goodPanelWidth = goodsFrame.getWidth() / 5;
         int numColumns = goodsFrame.getWidth() / (goodPanelWidth + 20); // Add 20 for spacing
@@ -86,9 +88,13 @@ public class GoodsMenu {
 
     }
     private static class GoodPanel extends JPanel {
+        private static int panelCounter = 0;
+        private int panelId;
         private Good good;
         private JButton edit;
+        private JButton buySell;
         private JCheckBox toDelete;
+        private int index=0;
 
         public GoodPanel(Good good) {
             setLayout(new BorderLayout());
@@ -96,6 +102,7 @@ public class GoodsMenu {
             setBackground(Color.GRAY);
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
+            setBackground(new Color(252, 220, 120));
             add(good.image, BorderLayout.NORTH);
 
             JTextArea goodDescription = new JTextArea(good.toString());
@@ -104,17 +111,30 @@ public class GoodsMenu {
             JScrollPane description = new JScrollPane(goodDescription);
             add(description, BorderLayout.CENTER);
 
-            JPanel buttons = new JPanel(new GridLayout(1,2));
+            JPanel buttonPanel = new JPanel( new BorderLayout());
+            buttonPanel.setBackground(new Color(252, 220, 120));
+            JPanel buttons = new JPanel(new BorderLayout());
             edit = new JButton("Редагувати");
+
             edit.addActionListener(editSelected);
-            buttons.add(edit);
+            buySell = new JButton("Купівля/Продаж");
             toDelete = new JCheckBox();
-            buttons.add(toDelete);
+
+            buttonPanel.add(edit, BorderLayout.WEST);
+            buttonPanel.add(buySell, BorderLayout.CENTER);
+            buttonPanel.add(toDelete, BorderLayout.EAST);
+
+            buttons.add(buttonPanel, BorderLayout.CENTER);
             add(buttons, BorderLayout.SOUTH);
 
+            this.panelId = panelCounter++;
+            edit.setActionCommand("edit_" + this.panelId);
         }
         public Good getGood() {
             return good;
+        }
+        public int getPanelId() {
+            return panelId;
         }
         public boolean isToDeleteSelected() {
             return toDelete.isSelected();
@@ -142,8 +162,17 @@ public class GoodsMenu {
     private static final ActionListener editSelected = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            EditGood ed = new EditGood();
-            ed.setEditMenu();
+            String actionCommand = e.getActionCommand();
+            String[] commandParts = actionCommand.split("_");
+            int panelId = Integer.parseInt(commandParts[1]);
+
+            for (GoodPanel goodPanel : goodPanels) {
+                if (goodPanel.getPanelId() == panelId) {
+                    EditGood ed = new EditGood();
+                    ed.setEditMenu(goodPanel.getGood());
+                    break;
+                }
+            }
         }
     };
 }
