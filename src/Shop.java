@@ -23,6 +23,7 @@ public class Shop {
     }
     public static void setData1() throws MalformedURLException {
                 Good.setDefaultImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3eUqe0gzy74YsDqHf365i8SEldyqxCbmqO0O50o1G1rtzCqSpV3CxDaD6Cv3FQr6Fl9g&usqp=CAU");
+                GroupsMenu.setIcons();
 
             groupArray = new ArrayList<>();
             goodsArray = new ArrayList<>();
