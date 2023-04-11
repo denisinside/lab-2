@@ -24,6 +24,7 @@ public class MainMenu {
         JButton groupsButton = new JButton("Групи товарів");
         JButton searchGoodButton = new JButton("Пошук товарів");
         JButton showDataButton = new JButton("Вивести дані");
+        JButton buySellButton = new JButton("Списати/Додати товар");
 
         // СТВОРЕННЯ ПАНЕЛЕЙ ДЛЯ ВІДМЕЖУВАННЯ КНОПОК ВІД СТІНОК ВІКНА //
         JPanel eastPanel = new JPanel();
