@@ -17,7 +17,7 @@ public class EditGood {
     private Good good;
     private JButton OK;
     private JButton reset;
-
+    private GoodsMenu goodsMenu;
 
     public JFrame setEditMenu(Good g){
         good=g;
@@ -50,12 +50,13 @@ public class EditGood {
         OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Товар успішно змінено!", "Success",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Товар успішно змінено!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 editGood();
-                GoodsMenu.setGoodsMenu();
+                editFrame.dispose();
+                GoodsMenu.goodsFrame.dispose(); // close the previous GoodsMenu
+                GoodsMenu.setGoodsMenu(); // open the updated GoodsMenu
             }
         });
-
         reset = new JButton("Скинути");
         reset.addActionListener(new ActionListener() {
             @Override
@@ -73,6 +74,9 @@ public class EditGood {
         editFrame.add(bp,BorderLayout.SOUTH);
         editFrame.setVisible(true);
         return editFrame;
+    }
+    public void setGoodsMenu(GoodsMenu goodsMenu) {
+        this.goodsMenu = goodsMenu;
     }
 
     public void editGood() {

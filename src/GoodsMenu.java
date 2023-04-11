@@ -9,13 +9,14 @@ import java.util.Iterator;
 
 public class GoodsMenu {
 
-    private static JFrame goodsFrame;
+    static JFrame goodsFrame;
     private static Toolkit tk = Toolkit.getDefaultToolkit();
     private static Dimension screenDimension = tk.getScreenSize();
     private static JButton add, delete, search, back;
     private static JTextField searchField;
     private static ArrayList<GoodPanel> goodPanels;
     private static JPanel middlePanel;
+    private GoodsMenu goodsMenu;
     protected static void setGoodsMenu(){
 
         // НАЛАШТУВАННЯ ВІКНА //
@@ -86,6 +87,9 @@ public class GoodsMenu {
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
 
+    }
+    public void setGoodsMenu(GoodsMenu goodsMenu) {
+        this.goodsMenu = goodsMenu;
     }
     private static class GoodPanel extends JPanel {
         private static int panelCounter = 0;
