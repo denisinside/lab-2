@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,6 @@ public class MainMenu {
     protected static void setMainMenu(){
 
         mainFrame = new JFrame("Головне меню");
-        mainFrame.addWindowListener(new ShopWindowListener());
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new GridLayout(6,0,0,20));
 
@@ -54,29 +52,29 @@ public class MainMenu {
 
     }
 
-        private static final ActionListener goToGoods = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.setVisible(false);
-                GoodsMenu.setGoodsMenu();
-            }
-        };
+    private static final ActionListener goToGoods = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainFrame.setVisible(false);
+            GoodsMenu.setGoodsMenu();
+        }
+    };
 
-        private static final ActionListener goToGroups = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.setVisible(false);
-                GroupsMenu gm = new GroupsMenu();
-                gm.setGroupsMenu();
-            }
-        };
+    private static final ActionListener goToGroups = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainFrame.setVisible(false);
+            GroupsMenu gm = new GroupsMenu();
+            gm.setGroupsMenu();
+        }
+    };
 
     // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ //
-        private static final ActionListener goToShow = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ShowMenu sm = new ShowMenu();
-                sm.fuck();
-            }
-        };
+    private static final ActionListener goToShow = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ShowMenu sm = new ShowMenu();
+            sm.fuck();
+        }
+    };
 }

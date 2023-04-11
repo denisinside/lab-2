@@ -7,19 +7,18 @@ import java.util.Iterator;
 
 public class GoodsMenu {
 
-    public static JFrame goodsFrame;
-    private static JMenuBar goodMenuBar;
+    private static JFrame goodsFrame;
+    private static Toolkit tk = Toolkit.getDefaultToolkit();
+    private static Dimension screenDimension = tk.getScreenSize();
     private static JButton add, edit, delete, search, back;
     private static JTextField searchField;
     private static ArrayList<GoodPanel> goodPanels;
-    private static  JPanel goodListPanel;
-
+    private static JPanel middlePanel;
     protected static void setGoodsMenu(){
-        goodPanels = new ArrayList<>();
+
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
         goodsFrame.setLayout(new BorderLayout());
-        goodsFrame.addWindowListener(new ShopWindowListener());
         goodsFrame.setBounds(MainMenu.screenDimension.width/4,MainMenu.screenDimension.height/4,1200,900);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,18 +47,27 @@ public class GoodsMenu {
         searchPanel.add(buttonsPanel);
         frameTop.add(searchPanel);
 
-        // СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
-        goodListPanel = new JPanel(new FlowLayout());
-        int y = Shop.goodsArray.size()%4;
-        y = y != 0 ? 1 : 0;
-        y = (int) (goodsFrame.getHeight()/8*6*(Shop.goodsArray.size()+y)/8);
-        goodListPanel.setPreferredSize(new Dimension(goodsFrame.getWidth(), y));
-        goodListPanel.setBackground(new Color(252, 233, 174));
+// СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
+
+        int goodPanelWidth = goodsFrame.getWidth() / 5;
+        int numColumns = goodsFrame.getWidth() / (goodPanelWidth + 20); // Add 20 for spacing
+
+        middlePanel = new JPanel(new GridLayout(0, numColumns, 20, 20));
+        middlePanel.setBackground(new Color(252, 233, 174));
+
+        goodPanels = new ArrayList<>();
         for (Good good : Shop.goodsArray){
-            GoodPanel gp = new GoodPanel(good);
-            goodListPanel.add(gp);
-            goodPanels.add(gp);
+            GoodPanel g = new GoodPanel(good);
+            middlePanel.add(g);
+            goodPanels.add(g);
         }
+
+        JPanel frameMiddleWrapper = new JPanel(new BorderLayout());
+        frameMiddleWrapper.add(middlePanel, BorderLayout.NORTH);
+
+        JScrollPane frameMiddleScroll = new JScrollPane(frameMiddleWrapper);
+        frameMiddleScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        frameMiddleScroll.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight() / 8 * 6));
 
         // НИЖНЯ ЧАСТИНА З КНОПКАМИ "ВИДАЛИТИ І ДОДАТИ" //
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
@@ -70,14 +78,9 @@ public class GoodsMenu {
         frameBottom.add(add);
         frameBottom.add(delete);
 
-        // НЕ ПОМОГЛО.... //
-        JScrollPane j = new JScrollPane(goodListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        j.setPreferredSize(new Dimension(goodsFrame.getWidth(), Integer.MAX_VALUE));
-
-
         // А ЧОМУ НЕ ХЛОПЦЯ( //
         goodsFrame.add(frameTop, BorderLayout.NORTH);
-        goodsFrame.add(j, BorderLayout.CENTER);
+        goodsFrame.add(frameMiddleScroll, BorderLayout.CENTER);
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
 
@@ -116,7 +119,6 @@ public class GoodsMenu {
             return toDelete.isSelected();
         }
     }
-
     private static final ActionListener deleteSelectedGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -127,39 +129,12 @@ public class GoodsMenu {
                 if (gp.isToDeleteSelected()){
                     goodPanelIterator.remove();
                     Shop.goodsArray.remove(gp.getGood());
-                    goodListPanel.remove(gp);
+                    middlePanel.remove(gp);
                 }
             }
-            goodListPanel.revalidate();
-            goodListPanel.repaint();
+            middlePanel.revalidate();
+            middlePanel.repaint();
 
         }
     };
-
-
-//    private static String[][] setParameters(){
-//        String[][] goodParams = new String[Shop.goodsArray.size()][parameters.length];
-//
-//        String n = "";
-//        String d = "";
-//        String p = "";
-//        String pr = "";
-//        String q = "";
-//        String g = "";
-//        short j = 0;
-//        for(int i=0; i<Shop.goodsArray.size(); i++){
-//
-//            if(j<parameters.length){
-//                n = Shop.goodsArray.get(i).name;
-//                d = Shop.goodsArray.get(i).description;
-//                p = Shop.goodsArray.get(i).producer;
-//                pr = String.valueOf(Shop.goodsArray.get(i).price);
-//                q = String.valueOf(Shop.goodsArray.get(i).amount);
-//                g = Shop.goodsArray.get(i).groupName;
-//
-//                goodParams[i][j] = Arrays.toString(new String[]{n + " " + d + " " + p + " " + pr + " " + q + " " + g});
-//            }
-//        }
-//        return goodParams;
-//    }
 }

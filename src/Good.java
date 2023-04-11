@@ -1,11 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Good implements Serializable {
-    
+public class Good {
+
     // Object fields
     String name;
     String description;
@@ -15,7 +14,7 @@ public class Good implements Serializable {
     short groupNum;
     String groupName;
     JLabel image;
-   static JLabel defaultImg;
+    static JLabel defaultImg;
 
     public Good(String name, String description, String producer, int price, int amount, short groupNum, String groupName) {
         this.name = name;
