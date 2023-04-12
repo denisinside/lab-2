@@ -32,6 +32,10 @@ public class Good {
         this.price = price;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public Good(String name, String description, String producer, int price, int amount, short groupNum, String groupName) {
         this.name = name;
         this.description = description;
@@ -64,6 +68,7 @@ public class Good {
                 "\nОпис: " + description +
                 "\nВиробник: " + producer +
                 "\nЦіна за одиницю: " + price +
-                "\nКількість на складі: " + amount;
+                "\nКількість на складі: " + amount +
+                "\nГрупа товару: "+Shop.groupArray.get(groupNum-1);
     }
 }

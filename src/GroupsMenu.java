@@ -12,7 +12,6 @@ public class GroupsMenu {
     private static JTree productTree;
     private static DefaultMutableTreeNode root;
     private static JFrame groupsFrame;
-    private static JButton editButton, deleteButton, backToMenuButton, addButton;
     private static DefaultMutableTreeNode selectedNode;
     static ImageIcon groupIcon;
     static ImageIcon goodIcon;
@@ -35,7 +34,7 @@ public class GroupsMenu {
 
         JPanel buttons = new JPanel(new GridLayout(1,3));
         buttons.setPreferredSize(new Dimension(groupsFrame.getWidth(),groupsFrame.getHeight()/8));
-        editButton = new JButton("Редагувати");
+        JButton editButton = new JButton("Редагувати");
         editButton.addActionListener(e -> {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
                 editGroup((Group)selectedNode.getUserObject(),"Редагування");
@@ -43,7 +42,7 @@ public class GroupsMenu {
             }
         });
 
-        deleteButton = new JButton("Видалити");
+        JButton deleteButton = new JButton("Видалити");
         deleteButton.addActionListener(e -> {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
                 root.remove(selectedNode);
@@ -53,13 +52,13 @@ public class GroupsMenu {
                 productTree.updateUI();
             }
         });
-        backToMenuButton = new JButton("Повернутися");
+        JButton backToMenuButton = new JButton("Повернутися");
         backToMenuButton.addActionListener(e -> {
             groupsFrame.setVisible(false);
             MainMenu.mainFrame.setBounds(groupsFrame.getBounds());
             MainMenu.mainFrame.setVisible(true);
         });
-        addButton = new JButton("Додати групу");
+        JButton addButton = new JButton("Додати групу");
         addButton.addActionListener(e -> {
             editGroup(new Group("",""), "Додавання нової групи товарів");
             System.out.println("adding");
@@ -94,7 +93,7 @@ public class GroupsMenu {
         JButton approve = new JButton("Підтвердити");
         approve.addActionListener(e -> {
             for (Good good : Shop.goodsArray) if (good.groupName.equals(g.name)) good.groupName = name.getText();
-             g.name = name.getText();
+            g.name = name.getText();
             g.description = description.getText();
             if (!operation.equals("Редагування")) {
                 if (!g.name.equals("")) {

@@ -8,13 +8,15 @@ import java.util.Iterator;
 public class GoodsMenu {
 
     static JFrame goodsFrame;
-    private static Toolkit tk = Toolkit.getDefaultToolkit();
-    private static Dimension screenDimension = tk.getScreenSize();
-    private static JButton add, delete, search, back;
+    private static final Toolkit tk = Toolkit.getDefaultToolkit();
+    private static final Dimension screenDimension = tk.getScreenSize();
     private static JTextField searchField;
-    private static ArrayList<GoodPanel> goodPanels;
+    static ArrayList<GoodPanel> goodPanels;
     private static JPanel middlePanel;
-    private GoodsMenu goodsMenu;
+
+    public GoodsMenu(GoodsMenu goodsMenu) {
+    }
+
     protected static void setGoodsMenu(){
 
         // НАЛАШТУВАННЯ ВІКНА //
@@ -41,9 +43,9 @@ public class GoodsMenu {
         JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
         searchField = new JTextField("Пошук...");
         searchPanel.add(searchField);
-        search = new JButton("Шукати");
+        JButton search = new JButton("Шукати");
         buttonsPanel.add(search);
-        back = new JButton("Назад");
+        JButton back = new JButton("Назад");
         search.addActionListener(startSearch);
         back.addActionListener(goToMenu);
         buttonsPanel.add(back);
@@ -75,8 +77,8 @@ public class GoodsMenu {
         // НИЖНЯ ЧАСТИНА З КНОПКАМИ "ВИДАЛИТИ І ДОДАТИ" //
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
-        add = new JButton("Додати");
-        delete = new JButton("Видалити");
+        JButton add = new JButton("Додати");
+        JButton delete = new JButton("Видалити");
         add.addActionListener(addGood);
         delete.addActionListener(deleteSelectedGoods);
         frameBottom.add(add);
@@ -92,14 +94,11 @@ public class GoodsMenu {
 
 //************************ ВНУТРІШНІЙ КЛАС ПАНЕЛІ ТОВАРІВ ************************* //
 
-    private static class GoodPanel extends JPanel {
+    static class GoodPanel extends JPanel {
         private static int panelCounter = 0;
-        private int panelId;
-        private Good good;
-        private JButton edit;
-        private JButton buySell;
-        private JCheckBox toDelete;
-        private int index=0;
+        private final int panelId;
+        private final Good good;
+        private final JCheckBox toDelete;
 
         public GoodPanel(Good good) {
             setLayout(new BorderLayout());
@@ -119,10 +118,12 @@ public class GoodsMenu {
             JPanel buttonPanel = new JPanel( new BorderLayout());
             buttonPanel.setBackground(new Color(252, 220, 120));
             JPanel buttons = new JPanel(new BorderLayout());
-            edit = new JButton("Редагувати");
-
+            JButton edit = new JButton("Редагувати");
             edit.addActionListener(editSelected);
-            buySell = new JButton("Купівля/Продаж");
+
+            JButton buySell = new JButton("Купівля/Продаж");
+            buySell.addActionListener(buySelected);
+
             toDelete = new JCheckBox();
 
             buttonPanel.add(edit, BorderLayout.WEST);
@@ -134,6 +135,7 @@ public class GoodsMenu {
 
             this.panelId = panelCounter++;
             edit.setActionCommand("edit_" + this.panelId);
+            buySell.setActionCommand("trade_"+this.panelId);
         }
         public Good getGood() {
             return good;
@@ -181,7 +183,7 @@ public class GoodsMenu {
             Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
             while (goodPanelIterator.hasNext()){
                 GoodPanel gp = goodPanelIterator.next();
-                System.out.println(gp.isToDeleteSelected());
+
                 if (gp.isToDeleteSelected()){
                     goodPanelIterator.remove();
                     Shop.goodsArray.remove(gp.getGood());
@@ -213,6 +215,23 @@ public class GoodsMenu {
                 if (goodPanel.getPanelId() == panelId) {
                     EditGood ed = new EditGood();
                     ed.setEditMenu(goodPanel.getGood());
+                    break;
+                }
+            }
+        }
+    };
+
+    private static final ActionListener buySelected = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String act = e.getActionCommand();
+            String[] commandParts = act.split("_");
+            int panelId = Integer.parseInt(commandParts[1]);
+
+            for (GoodPanel goodPanel : goodPanels) {
+                if (goodPanel.getPanelId() == panelId) {
+                    Trader tr = new Trader();
+                    tr.setTradeMenu(goodPanel.getGood());
                     break;
                 }
             }
