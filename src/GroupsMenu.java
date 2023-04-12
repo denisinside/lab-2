@@ -94,7 +94,7 @@ public class GroupsMenu {
         JButton approve = new JButton("Підтвердити");
         approve.addActionListener(e -> {
             for (Good good : Shop.goodsArray) if (good.groupName.equals(g.name)) good.groupName = name.getText();
-            g.name = name.getText();
+             g.name = name.getText();
             g.description = description.getText();
             if (!operation.equals("Редагування")) {
                 if (!g.name.equals("")) {
