@@ -52,14 +52,6 @@ public class Shop {
         goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short) 3,domestics.name));
         goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
         goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
-        goodsArray.add(new Good("asd", " ", "sdfsd", 234, 23411, (short)3,domestics.name));
+
     }
 }

@@ -5,35 +5,27 @@ import java.awt.event.ActionListener;
 
 public class EditGood {
     private JFrame editFrame;
-    private JPanel editPanel;
-    private JLabel nameLabel;
     private JTextField nameField;
-    private JLabel descriptionLabel;
     private JTextArea descriptionArea;
-    private JLabel producerLabel;
     private JTextField producerField;
-    private JLabel priceLabel;
     private JTextField priceField;
     private Good good;
-    private JButton OK;
-    private JButton reset;
-    private GoodsMenu goodsMenu;
 
-    public JFrame setEditMenu(Good g){
+    public void setEditMenu(Good g){
         good=g;
         editFrame = new JFrame("Редагування характеристик товару");
         editFrame.setLayout(new BorderLayout());
         editFrame.setBounds(MainMenu.screenDimension.width/3,MainMenu.screenDimension.height/4,500,600);
         editFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        editPanel = new JPanel(new GridLayout(4,2,10,70));
-        nameLabel = new JLabel("Ім'я:");
+        JPanel editPanel = new JPanel(new GridLayout(4, 2, 10, 70));
+        JLabel nameLabel = new JLabel("Ім'я:");
         nameField = new JTextField(g.name);
-        descriptionLabel = new JLabel("Опис:");
+        JLabel descriptionLabel = new JLabel("Опис:");
         descriptionArea = new JTextArea(g.description);
-        producerLabel = new JLabel("Виробник:");
+        JLabel producerLabel = new JLabel("Виробник:");
         producerField = new JTextField(g.producer);
-        priceLabel = new JLabel("Ціна:");
+        JLabel priceLabel = new JLabel("Ціна:");
         priceField = new JTextField(String.valueOf(g.price));
 
         editPanel.add(nameLabel);
@@ -45,8 +37,8 @@ public class EditGood {
         editPanel.add(priceLabel);
         editPanel.add(priceField);
 
-        JPanel bp = new JPanel(new GridLayout(1,2,30,0));
-        OK = new JButton("OK");
+        JPanel buttonPanel = new JPanel(new GridLayout(1,2,30,0));
+        JButton OK = new JButton("OK");
         OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +49,7 @@ public class EditGood {
                 GoodsMenu.setGoodsMenu(); // open the updated GoodsMenu
             }
         });
-        reset = new JButton("Скинути");
+        JButton reset = new JButton("Скинути");
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,16 +59,12 @@ public class EditGood {
                 priceField.setText(String.valueOf(g.price));
             }
         });
-        bp.add(OK);
-        bp.add(reset);
+        buttonPanel.add(OK);
+        buttonPanel.add(reset);
 
         editFrame.add(editPanel, BorderLayout.CENTER);
-        editFrame.add(bp,BorderLayout.SOUTH);
+        editFrame.add(buttonPanel,BorderLayout.SOUTH);
         editFrame.setVisible(true);
-        return editFrame;
-    }
-    public void setGoodsMenu(GoodsMenu goodsMenu) {
-        this.goodsMenu = goodsMenu;
     }
 
     public void editGood() {

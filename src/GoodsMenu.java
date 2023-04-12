@@ -75,6 +75,7 @@ public class GoodsMenu {
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
         add = new JButton("Додати");
         delete = new JButton("Видалити");
+        add.addActionListener(addGood);
         delete.addActionListener(deleteSelectedGoods);
         frameBottom.add(add);
         frameBottom.add(delete);
@@ -86,9 +87,8 @@ public class GoodsMenu {
         goodsFrame.setVisible(true);
 
     }
-    public void setGoodsMenu(GoodsMenu goodsMenu) {
-        this.goodsMenu = goodsMenu;
-    }
+
+
     private static class GoodPanel extends JPanel {
         private static int panelCounter = 0;
         private int panelId;
@@ -158,6 +158,14 @@ public class GoodsMenu {
             middlePanel.revalidate();
             middlePanel.repaint();
 
+        }
+    };
+
+    private static final ActionListener addGood = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            AddGood ad = new AddGood();
+            ad.setAddGood();
         }
     };
 
