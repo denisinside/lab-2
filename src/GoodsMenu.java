@@ -101,38 +101,39 @@ public class GoodsMenu {
 
 //************************ ВНУТРІШНІЙ КЛАС ПАНЕЛІ ТОВАРІВ ************************* //
 
-    private static class GoodPanel extends JPanel {
-        private Good good;
-        private JButton edit;
-        private JCheckBox toDelete;
-        private JButton buySell;
+    static class GoodPanel extends JPanel {
+        private static int panelCounter = 0;
+        private final int panelId;
+        private final Good good;
+        private final JCheckBox toDelete;
 
         public GoodPanel(Good good) {
             setLayout(new BorderLayout());
             this.good = good;
-            setBackground(Color.decode("#ADA46A"));
+            setBackground(Color.GRAY);
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
+            setBackground(new Color(252, 220, 120));
             add(good.image, BorderLayout.NORTH);
 
-            JTextArea goodDescription = new JTextArea(good.toStringPanel());
+            JTextArea goodDescription = new JTextArea(good.toString());
             goodDescription.setEditable(false);
             goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             JScrollPane description = new JScrollPane(goodDescription);
             add(description, BorderLayout.CENTER);
 
-            JPanel buttons = new JPanel(new BorderLayout());
-            edit = new JButton("Редагувати");
-
             JPanel buttonPanel = new JPanel( new BorderLayout());
-            buttonPanel.setBackground(Color.decode("#FAF0B2"));
-
-            edit = new JButton("Редагувати");
+            buttonPanel.setBackground(new Color(252, 220, 120));
+            JPanel buttons = new JPanel(new BorderLayout());
+            JButton edit = new JButton("Редагувати");
             edit.addActionListener(e -> {
                 EditOrAddGood editOrAddGood = new EditOrAddGood();
                 editOrAddGood.setEditMenu(good,"Редагування");
             });
-            buySell = new JButton("Купівля/Продаж");
+
+            JButton buySell = new JButton("Купівля/Продаж");
+            buySell.addActionListener(tradeSelected);
+
             toDelete = new JCheckBox();
 
             buttonPanel.add(edit, BorderLayout.WEST);
@@ -141,11 +142,16 @@ public class GoodsMenu {
 
             buttons.add(buttonPanel, BorderLayout.CENTER);
             add(buttons, BorderLayout.SOUTH);
-            add(buttons, BorderLayout.SOUTH);
 
+            this.panelId = panelCounter++;
+            edit.setActionCommand("edit_" + this.panelId);
+            buySell.setActionCommand("trade_"+this.panelId);
         }
         public Good getGood() {
             return good;
+        }
+        public int getPanelId() {
+            return panelId;
         }
         public boolean isToDeleteSelected() {
             return toDelete.isSelected();
@@ -198,6 +204,22 @@ public class GoodsMenu {
             middlePanel.revalidate();
             middlePanel.repaint();
 
+        }
+    };
+    private static final ActionListener tradeSelected = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String act = e.getActionCommand();
+            String[] commandParts = act.split("_");
+            int panelId = Integer.parseInt(commandParts[1]);
+
+            for (GoodPanel goodPanel : goodPanels) {
+                if (goodPanel.getPanelId() == panelId) {
+                    Trader tr = new Trader();
+                    tr.setTradeMenu(goodPanel.getGood());
+                    break;
+                }
+            }
         }
     };
 }
