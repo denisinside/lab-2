@@ -19,7 +19,9 @@ public class GroupsMenu {
 
     public static void setGroupsMenu(Rectangle bounds) {
         groupsFrame = new JFrame("Групи товарів");
-        //groupsFrame.addWindowListener(new ShopWindowListener());
+
+        groupsFrame.addWindowListener(new ShopWindowListener());
+
         groupsFrame.setBounds(bounds);
         groupsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         groupsFrame.setLayout(new BorderLayout());
