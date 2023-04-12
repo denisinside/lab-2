@@ -44,6 +44,7 @@ public class GoodsMenu {
         search = new JButton("Шукати");
         buttonsPanel.add(search);
         back = new JButton("Назад");
+        search.addActionListener(startSearch);
         buttonsPanel.add(back);
         searchPanel.add(buttonsPanel);
         frameTop.add(searchPanel);
@@ -142,7 +143,27 @@ public class GoodsMenu {
             return toDelete.isSelected();
         }
     }
-    private static final ActionListener deleteSelectedGoods = new ActionListener() {
+
+    private static final ActionListener startSearch = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String searched = searchField.getText();
+            middlePanel.removeAll();
+            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
+            middlePanel.removeAll();
+
+            while (goodPanelIterator.hasNext()){
+                GoodPanel gp = goodPanelIterator.next();
+                if (gp.good.name.toLowerCase().startsWith(searched.toLowerCase())){
+                    middlePanel.add(gp);
+                }
+            }
+            middlePanel.revalidate();
+            middlePanel.repaint();
+        }
+    };
+
+        private static final ActionListener deleteSelectedGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();

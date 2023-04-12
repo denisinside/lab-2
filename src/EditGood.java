@@ -16,7 +16,7 @@ public class EditGood {
         editFrame = new JFrame("Редагування характеристик товару");
         editFrame.setLayout(new BorderLayout());
         editFrame.setBounds(MainMenu.screenDimension.width/3,MainMenu.screenDimension.height/4,500,600);
-        editFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        editFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JPanel editPanel = new JPanel(new GridLayout(4, 2, 10, 70));
         JLabel nameLabel = new JLabel("Ім'я:");
