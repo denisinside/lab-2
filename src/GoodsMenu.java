@@ -2,16 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Locale;
 
 public class GoodsMenu {
 
     public static JFrame goodsFrame;
     private static Toolkit tk = Toolkit.getDefaultToolkit();
     private static Dimension screenDimension = tk.getScreenSize();
-    private static JButton add, edit, delete, searchButton, back;
+    private static JButton add, edit, delete, searchButton, back, filterButton;
     private static JTextField searchField;
+    private static JPopupMenu filterPopup;
+    private static JMenuItem dateFilter, alphabetFilter, costFilter, valueFilter;
+    private static String currentFilter = "дата";
     private static ArrayList<GoodPanel> goodPanels;
     private static JPanel middlePanel;
     protected static void setGoodsMenu(Rectangle bounds){
@@ -38,14 +44,52 @@ public class GoodsMenu {
 
 
         // НИЖНЯ ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ //
-        JPanel searchPanel = new JPanel(new GridLayout(1,2));
-        JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
+        JPanel searchPanel = new JPanel(new GridLayout(1,1));
+        JPanel buttonsPanel = new JPanel(new GridLayout(1,3));
         searchField = new JTextField("Пошук...");
         searchPanel.add(searchField);
         searchButton = new JButton("Шукати");
         searchButton.addActionListener(startSearch);
         buttonsPanel.add(searchButton);
         back = new JButton("Назад");
+
+        filterButton = new JButton("Фільтер");
+        buttonsPanel.add(filterButton);
+        filterButton.addActionListener(e -> {
+            Point buttonLocationOnScreen = filterButton.getLocationOnScreen();
+            filterPopup.setLocation(buttonLocationOnScreen.x, buttonLocationOnScreen.y);
+            filterPopup.setVisible(true);
+        });
+        filterPopup = new JPopupMenu();
+        dateFilter = new JMenuItem("За часом додавання");
+        dateFilter.addActionListener(e -> {
+            currentFilter = "дата";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+        alphabetFilter = new JMenuItem("За алфавітом");
+        alphabetFilter.addActionListener(e -> {
+            currentFilter = "алфавіт";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+        costFilter = new JMenuItem("За ціною");
+        costFilter.addActionListener(e -> {
+            currentFilter = "ціна";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+        valueFilter = new JMenuItem("За заг. вартістю");
+        valueFilter.addActionListener(e -> {
+            currentFilter = "вартість";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+
+        filterPopup.add(dateFilter);
+        filterPopup.add(alphabetFilter);
+        filterPopup.add(costFilter);
+        filterPopup.add(valueFilter);
 
         searchButton.addActionListener(startSearch);
 
@@ -97,6 +141,23 @@ public class GoodsMenu {
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
 
+    }
+
+    private static void useFilter(){
+        ArrayList<GoodPanel> usingFilter = new ArrayList<>(goodPanels);
+        if (currentFilter.equals("алфавіт")) usingFilter.sort((s1, s2) -> {
+            Collator collator = Collator.getInstance(new Locale("uk"));
+            return collator.compare(s1.good.name, s2.good.name);
+        });
+        if (currentFilter.equals("ціна")) usingFilter.sort((e1,e2) -> Integer.compare(e2.good.price,e1.good.price));
+        if (currentFilter.equals("вартість")) usingFilter.sort((e1,e2) -> Integer.compare(e2.good.getProductTypeValue(),e1.good.getProductTypeValue()));
+        Iterator<GoodPanel> goodPanelIterator = usingFilter.iterator();
+        middlePanel.removeAll();
+        while (goodPanelIterator.hasNext()){
+                middlePanel.add(goodPanelIterator.next());
+        }
+        middlePanel.revalidate();
+        middlePanel.repaint();
     }
 
 //************************ ВНУТРІШНІЙ КЛАС ПАНЕЛІ ТОВАРІВ ************************* //
@@ -159,7 +220,6 @@ public class GoodsMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             String searched = searchField.getText();
-            middlePanel.removeAll();
             Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
             middlePanel.removeAll();
 
@@ -188,7 +248,6 @@ public class GoodsMenu {
             Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
             while (goodPanelIterator.hasNext()){
                 GoodPanel gp = goodPanelIterator.next();
-                System.out.println(gp.isToDeleteSelected());
                 if (gp.isToDeleteSelected()){
                     goodPanelIterator.remove();
                     Shop.goodsArray.remove(gp.getGood());
