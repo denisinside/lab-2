@@ -28,6 +28,7 @@ public class EditGood {
         JPanel editPanel = new JPanel(new GridLayout(6, 2, 10, 30));
         editPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
+
         Font font = new Font("Arial Black", Font.BOLD,20);
         JLabel nameLabel = new JLabel("Ім'я:");
         nameLabel.setFont(font);

@@ -29,8 +29,10 @@ public class MainMenu {
         // КНОПКИ ГОЛОВНОГО МЕНЮ //
         JButton goodsButton = new JButton("Товари");
         JButton groupsButton = new JButton("Групи товарів");
+
         goodsButton.setPreferredSize(new Dimension(mainFrame.getWidth()/2,mainFrame.getHeight()/8));
         groupsButton.setPreferredSize(new Dimension(mainFrame.getWidth()/2,mainFrame.getHeight()/8));
+
 
         // ДОДАВАННЯ КНОПОК ДО ПАНЕЛІ КНОПОК //
         JPanel buttonPanel = new JPanel(new BorderLayout());
@@ -61,10 +63,21 @@ public class MainMenu {
     private static final ActionListener goToGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+
             mainFrame.setVisible(false);
             GoodsMenu.setGoodsMenu(mainFrame.getBounds());
+
         }
     };
+
+//    // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ //
+//    private static final ActionListener goToShow = new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            ShowMenu sm = new ShowMenu();
+//            sm.fuck();
+//        }
+//    };
 
     private static final ActionListener goToGroups = new ActionListener() {
         @Override
@@ -75,3 +88,4 @@ public class MainMenu {
     };
 
 }
+

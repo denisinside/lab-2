@@ -46,6 +46,9 @@ public class GoodsMenu {
         searchButton.addActionListener(startSearch);
         buttonsPanel.add(searchButton);
         back = new JButton("Назад");
+
+        search.addActionListener(startSearch);
+
         back.addActionListener(goToMenu);
         buttonsPanel.add(back);
         searchPanel.add(buttonsPanel);
@@ -95,6 +98,9 @@ public class GoodsMenu {
         goodsFrame.setVisible(true);
 
     }
+
+//************************ ВНУТРІШНІЙ КЛАС ПАНЕЛІ ТОВАРІВ ************************* //
+
     private static class GoodPanel extends JPanel {
         private Good good;
         private JButton edit;
@@ -145,7 +151,39 @@ public class GoodsMenu {
             return toDelete.isSelected();
         }
     }
+
+
+// ********************************************************************************* //
+
     private static final ActionListener startSearch = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String searched = searchField.getText();
+            middlePanel.removeAll();
+            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
+            middlePanel.removeAll();
+
+            while (goodPanelIterator.hasNext()){
+                GoodPanel gp = goodPanelIterator.next();
+                if (gp.good.name.toLowerCase().startsWith(searched.toLowerCase())){
+                    middlePanel.add(gp);
+                }
+            }
+            middlePanel.revalidate();
+            middlePanel.repaint();
+        }
+    };
+
+    private static final ActionListener goToMenu = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            goodsFrame.dispose();
+            MainMenu.mainFrame.setVisible(true);
+        }
+    };
+        private static final ActionListener deleteSelectedGoods = new ActionListener() {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             String searched = searchField.getText();
