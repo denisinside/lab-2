@@ -45,6 +45,7 @@ public class GoodsMenu {
         buttonsPanel.add(search);
         back = new JButton("Назад");
         search.addActionListener(startSearch);
+        back.addActionListener(goToMenu);
         buttonsPanel.add(back);
         searchPanel.add(buttonsPanel);
         frameTop.add(searchPanel);
@@ -89,6 +90,7 @@ public class GoodsMenu {
 
     }
 
+//************************ ВНУТРІШНІЙ КЛАС ПАНЕЛІ ТОВАРІВ ************************* //
 
     private static class GoodPanel extends JPanel {
         private static int panelCounter = 0;
@@ -144,6 +146,8 @@ public class GoodsMenu {
         }
     }
 
+// ********************************************************************************* //
+
     private static final ActionListener startSearch = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -163,6 +167,14 @@ public class GoodsMenu {
         }
     };
 
+    private static final ActionListener goToMenu = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            goodsFrame.dispose();
+            MainMenu.mainFrame.setVisible(true);
+        }
+    };
         private static final ActionListener deleteSelectedGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {

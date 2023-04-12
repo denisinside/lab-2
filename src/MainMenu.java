@@ -24,7 +24,7 @@ public class MainMenu {
         JButton groupsButton = new JButton("Групи товарів");
         JButton searchGoodButton = new JButton("Пошук товарів");
         JButton showDataButton = new JButton("Вивести дані");
-        JButton buySellButton = new JButton("Списати/Додати товар");
+        //JButton buySellButton = new JButton("Списати/Додати товар");
 
         // СТВОРЕННЯ ПАНЕЛЕЙ ДЛЯ ВІДМЕЖУВАННЯ КНОПОК ВІД СТІНОК ВІКНА //
         JPanel eastPanel = new JPanel();
@@ -39,7 +39,7 @@ public class MainMenu {
 
         goodsButton.addActionListener(goToGoods);
         groupsButton.addActionListener(goToGroups);
-        showDataButton.addActionListener(goToShow);
+        //showDataButton.addActionListener(goToShow);
 
         // ДОДАВАННЯ ОБ'ЄКТІВ ДО ГОЛОВНОЇ ПАНЕЛІ //
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
@@ -56,26 +56,25 @@ public class MainMenu {
     private static final ActionListener goToGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            mainFrame.setVisible(false);
+            mainFrame.dispose();
             GoodsMenu.setGoodsMenu();
         }
     };
+
+//    // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ //
+//    private static final ActionListener goToShow = new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            ShowMenu sm = new ShowMenu();
+//            sm.fuck();
+//        }
+//    };
 
     private static final ActionListener goToGroups = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             mainFrame.setVisible(false);
-            GroupsMenu gm = new GroupsMenu();
-            gm.setGroupsMenu();
-        }
-    };
-
-    // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ //
-    private static final ActionListener goToShow = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ShowMenu sm = new ShowMenu();
-            sm.fuck();
+            GroupsMenu.setGroupsMenu(mainFrame.getBounds());
         }
     };
 }
