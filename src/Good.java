@@ -41,15 +41,26 @@ public class Good implements Serializable {
 
         defaultImg = new JLabel(new ImageIcon(scaledImage));
     }
+    public int getProductTypeValue(){
+        return amount*price;
+    }
     @Override
     public String toString() {
         return  name +
-                "\n Опис: " + description +
-                "\n Виробник: " + producer +
-                "\n Ціна за одиницю: " + price +
-                "\n Кількість на складі: " + amount;
+                " | " + producer +
+                " | " + price +
+                "грн | К-cть: " + amount +
+                " | Загальна вартість: " + String.format("%,d",getProductTypeValue()) + " грн";
     }
+    public String toStringPanel(){
+        return  name +
+                "\n Опис: " + description +
+                "\n Виробник: " + producer + " грн" +
+                "\n Ціна за одиницю: " + price +
+                "\n Кількість на складі: " + amount +
+                "\n Загальна вартість: " + String.format("%,d",getProductTypeValue()) + " грн";
 
+    }
     public void setName(String name) {
         this.name = name;
     }

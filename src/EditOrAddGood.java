@@ -3,10 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Objects;
 
-public class EditGood {
+public class EditOrAddGood {
     private JFrame editFrame;
     private JTextField nameField;
     private JTextArea descriptionArea;
@@ -78,8 +76,10 @@ public class EditGood {
                 if (isCorrectInput()) {
                     editGood(operation);
                     editFrame.dispose();
-                    GoodsMenu.goodsFrame.dispose(); // close the previous GoodsMenu
-                    GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds()); // open the updated GoodsMenu
+                    if (GoodsMenu.goodsFrame != null && GoodsMenu.goodsFrame.isVisible()) {
+                        GoodsMenu.goodsFrame.dispose(); // close the previous GoodsMenu
+                        GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds()); // open the updated GoodsMenu
+                    }
                 }
             }
         });

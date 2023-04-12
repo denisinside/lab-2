@@ -81,11 +81,7 @@ public class Shop {
         }
     }
 
-    public static void addGood(String name, String description, String producer, int price, int amount, short groupNum, String groupName, String url)  {
-        Good good = new Good(name, description, producer, price, amount, groupName);
 
-        goodsArray.add(good);
-    }
 }
 class ShopWindowListener implements WindowListener {
     public void windowOpened(WindowEvent e) {}

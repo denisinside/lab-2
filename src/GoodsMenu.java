@@ -29,10 +29,10 @@ public class GoodsMenu {
 
         // ТЕКСТ "НАУКМА МАГАЗ" //
         JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(Color.cyan);
+        logoPanel.setBackground(Color.decode("#BBB1FA"));
         JLabel logo = new JLabel("Вибір Товарів");
-        logo.setForeground(Color.BLACK);
-        logo.setFont(new Font("Arial Black", Font.BOLD, 32));
+        logo.setForeground(Color.decode("#6358AD"));
+        logo.setFont(new Font("Impact", Font.BOLD, 40));
         logoPanel.add(logo);
         frameTop.add(logoPanel);
 
@@ -71,8 +71,8 @@ public class GoodsMenu {
 
         JPanel frameMiddleWrapper = new JPanel(new BorderLayout());
         frameMiddleWrapper.add(middlePanel, BorderLayout.NORTH);
-        middlePanel.setBackground(new Color(252, 233, 174));
-        frameMiddleWrapper.setBackground(new Color(252, 233, 174));
+        middlePanel.setBackground(Color.decode("#FAF0B2"));
+        frameMiddleWrapper.setBackground(Color.decode("#FAF0B2"));
 
         JScrollPane frameMiddleScroll = new JScrollPane(frameMiddleWrapper);
         frameMiddleScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -83,8 +83,8 @@ public class GoodsMenu {
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
         add = new JButton("Додати");
         add.addActionListener(e -> {
-            EditGood editGood = new EditGood();
-            editGood.setEditMenu(new Good("","","",0,0,""),"Додавання");
+            EditOrAddGood editOrAddGood = new EditOrAddGood();
+            editOrAddGood.setEditMenu(new Good("","","",0,0,""),"Додавання");
         });
         delete = new JButton("Видалити");
         delete.addActionListener(deleteSelectedGoods);
@@ -110,12 +110,12 @@ public class GoodsMenu {
         public GoodPanel(Good good) {
             setLayout(new BorderLayout());
             this.good = good;
-            setBackground(Color.GRAY);
+            setBackground(Color.decode("#ADA46A"));
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
             add(good.image, BorderLayout.NORTH);
 
-            JTextArea goodDescription = new JTextArea(good.toString());
+            JTextArea goodDescription = new JTextArea(good.toStringPanel());
             goodDescription.setEditable(false);
             goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             JScrollPane description = new JScrollPane(goodDescription);
@@ -125,12 +125,12 @@ public class GoodsMenu {
             edit = new JButton("Редагувати");
 
             JPanel buttonPanel = new JPanel( new BorderLayout());
-            buttonPanel.setBackground(new Color(252, 220, 120));
+            buttonPanel.setBackground(Color.decode("#FAF0B2"));
 
             edit = new JButton("Редагувати");
             edit.addActionListener(e -> {
-                EditGood editGood = new EditGood();
-                editGood.setEditMenu(good,"Редагування");
+                EditOrAddGood editOrAddGood = new EditOrAddGood();
+                editOrAddGood.setEditMenu(good,"Редагування");
             });
             buySell = new JButton("Купівля/Продаж");
             toDelete = new JCheckBox();
