@@ -47,7 +47,7 @@ public class GoodsMenu {
         buttonsPanel.add(searchButton);
         back = new JButton("Назад");
 
-        search.addActionListener(startSearch);
+        searchButton.addActionListener(startSearch);
 
         back.addActionListener(goToMenu);
         buttonsPanel.add(back);
@@ -174,32 +174,6 @@ public class GoodsMenu {
         }
     };
 
-    private static final ActionListener goToMenu = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            goodsFrame.dispose();
-            MainMenu.mainFrame.setVisible(true);
-        }
-    };
-        private static final ActionListener deleteSelectedGoods = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String searched = searchField.getText();
-            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
-            middlePanel.removeAll();
-            while (goodPanelIterator.hasNext()){
-                GoodPanel gp = goodPanelIterator.next();
-                if (gp.good.name.toLowerCase().startsWith(searched.toLowerCase())){
-                    middlePanel.add(gp);
-                }
-            }
-            middlePanel.revalidate();
-            middlePanel.repaint();
-
-        }
-    };
     private static final ActionListener goToMenu = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
