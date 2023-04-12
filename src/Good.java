@@ -1,11 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Good implements Serializable {
-    
+public class Good {
+
     // Object fields
     String name;
     String description;
@@ -15,7 +14,23 @@ public class Good implements Serializable {
     short groupNum;
     String groupName;
     JLabel image;
-   static JLabel defaultImg;
+    static JLabel defaultImg;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public Good(String name, String description, String producer, int price, int amount, short groupNum, String groupName) {
         this.name = name;
@@ -46,9 +61,9 @@ public class Good implements Serializable {
     @Override
     public String toString() {
         return  name +
-                "\n Опис: " + description +
-                "\n Виробник: " + producer +
-                "\n Ціна за одиницю: " + price +
-                "\n Кількість на складі: " + amount;
+                "\nОпис: " + description +
+                "\nВиробник: " + producer +
+                "\nЦіна за одиницю: " + price +
+                "\nКількість на складі: " + amount;
     }
 }

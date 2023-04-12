@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,67 +10,72 @@ public class MainMenu {
     protected static void setMainMenu(){
 
         mainFrame = new JFrame("Головне меню");
-        mainFrame.addWindowListener(new ShopWindowListener());
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(new Color(252, 233, 174));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10,30,10,30));
+        JPanel buttonPanel = new JPanel(new GridLayout(6,0,0,20));
 
-        mainFrame.setBounds(screenDimension.width/5,screenDimension.height/7,1200,900);
+        mainFrame.setBounds(screenDimension.width/4,screenDimension.height/4,900,600);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(Color.PINK);
-        JLabel logo = new JLabel("STORE SIMULATOR");
-        logo.setForeground(Color.BLACK);
-        logo.setFont(new Font("Arial Black", Font.BOLD, 50));
-        logoPanel.add(logo);
+        JLabel mainHint = new JLabel("STORE SIMULATOR");
+        mainHint.setHorizontalAlignment(SwingConstants.CENTER);
 
         // КНОПКИ ГОЛОВНОГО МЕНЮ //
         JButton goodsButton = new JButton("Товари");
         JButton groupsButton = new JButton("Групи товарів");
-        goodsButton.setPreferredSize(new Dimension(mainFrame.getWidth()/2,mainFrame.getHeight()/8));
-        groupsButton.setPreferredSize(new Dimension(mainFrame.getWidth()/2,mainFrame.getHeight()/8));
+        JButton searchGoodButton = new JButton("Пошук товарів");
+        JButton showDataButton = new JButton("Вивести дані");
+        JButton buySellButton = new JButton("Списати/Додати товар");
+
+        // СТВОРЕННЯ ПАНЕЛЕЙ ДЛЯ ВІДМЕЖУВАННЯ КНОПОК ВІД СТІНОК ВІКНА //
+        JPanel eastPanel = new JPanel();
+        JPanel westPanel = new JPanel();
 
         // ДОДАВАННЯ КНОПОК ДО ПАНЕЛІ КНОПОК //
-        JPanel buttonPanel = new JPanel(new BorderLayout());
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(150,50,80,50));
-        buttonPanel.setBackground(new Color(252, 233, 174));
-        buttonPanel.add(goodsButton, BorderLayout.NORTH);
-        buttonPanel.add(new JPanel(){{
-            setBorder(BorderFactory.createEmptyBorder(30,30,30,30));
-            setBackground(new Color(252, 233, 174));
-        }}, BorderLayout.CENTER);
-        buttonPanel.add(groupsButton, BorderLayout.SOUTH);
+        buttonPanel.add(mainHint);
+        buttonPanel.add(goodsButton);
+        buttonPanel.add(groupsButton);
+        buttonPanel.add(searchGoodButton);
+        buttonPanel.add(showDataButton);
+
         goodsButton.addActionListener(goToGoods);
         groupsButton.addActionListener(goToGroups);
+        showDataButton.addActionListener(goToShow);
 
         // ДОДАВАННЯ ОБ'ЄКТІВ ДО ГОЛОВНОЇ ПАНЕЛІ //
-        mainPanel.add(logoPanel, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
-        mainPanel.add(new JPanel(){{
-            setBorder(BorderFactory.createEmptyBorder(30,30,80,30));
-            setBackground(Color.PINK);
-        }}, BorderLayout.SOUTH);
+        mainPanel.add(eastPanel, BorderLayout.EAST);
+        mainPanel.add(westPanel, BorderLayout.WEST);
 
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
+        mainPanel.setVisible(true);
+        buttonPanel.setVisible(true);
 
     }
 
-        private static final ActionListener goToGoods = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.setVisible(false);
-                GoodsMenu.setGoodsMenu(mainFrame.getBounds());
-            }
-        };
+    private static final ActionListener goToGoods = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainFrame.setVisible(false);
+            GoodsMenu.setGoodsMenu();
+        }
+    };
 
-        private static final ActionListener goToGroups = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.setVisible(false);
-                GroupsMenu.setGroupsMenu(mainFrame.getBounds());
-            }
-        };
+    private static final ActionListener goToGroups = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainFrame.setVisible(false);
+            GroupsMenu gm = new GroupsMenu();
+            gm.setGroupsMenu();
+        }
+    };
 
+    // ШОУ... НЄ БЛЯТЬ ШАПІТО ЙОБАНЕ //
+    private static final ActionListener goToShow = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ShowMenu sm = new ShowMenu();
+            sm.fuck();
+        }
+    };
 }

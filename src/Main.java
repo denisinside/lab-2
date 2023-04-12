@@ -1,9 +1,6 @@
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-
 public class Main {
 
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) {
         Shop s = new Shop();
     }
 }
