@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Good {
+public class Good implements Serializable {
 
     // Object fields
     String name;
@@ -11,34 +12,16 @@ public class Good {
     String producer;
     int  price;
     int amount;
-    short groupNum;
     String groupName;
     JLabel image;
     static JLabel defaultImg;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setProducer(String producer) {
-        this.producer = producer;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public Good(String name, String description, String producer, int price, int amount, short groupNum, String groupName) {
+    public Good(String name, String description, String producer, int price, int amount, String groupName) {
         this.name = name;
         this.description = description;
         this.producer = producer;
         this.price = price;
         this.amount = amount;
-        this.groupNum = groupNum;
         this.groupName = groupName;
         image = new JLabel(defaultImg.getIcon());
     }
@@ -61,9 +44,33 @@ public class Good {
     @Override
     public String toString() {
         return  name +
-                "\nОпис: " + description +
-                "\nВиробник: " + producer +
-                "\nЦіна за одиницю: " + price +
-                "\nКількість на складі: " + amount;
+                "\n Опис: " + description +
+                "\n Виробник: " + producer +
+                "\n Ціна за одиницю: " + price +
+                "\n Кількість на складі: " + amount;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }
