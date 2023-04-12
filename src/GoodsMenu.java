@@ -174,17 +174,17 @@ public class GoodsMenu {
             setBackground(Color.GRAY);
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
-            setBackground(new Color(252, 220, 120));
+            setBackground(Color.decode("#ADA46A"));
             add(good.image, BorderLayout.NORTH);
 
-            JTextArea goodDescription = new JTextArea(good.toString());
+            JTextArea goodDescription = new JTextArea(good.toStringPanel());
             goodDescription.setEditable(false);
             goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             JScrollPane description = new JScrollPane(goodDescription);
             add(description, BorderLayout.CENTER);
 
             JPanel buttonPanel = new JPanel( new BorderLayout());
-            buttonPanel.setBackground(new Color(252, 220, 120));
+            buttonPanel.setBackground(Color.decode("#ADA46A"));
             JPanel buttons = new JPanel(new BorderLayout());
             JButton edit = new JButton("Редагувати");
             edit.addActionListener(e -> {

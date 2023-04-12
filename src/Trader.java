@@ -11,8 +11,8 @@ public class Trader {
     private JLabel infoLabel;
     private JLabel buyLabel;
     private JLabel sellLabel;
-    private JTextField buyField;
-    private JTextField sellField;
+    private JSpinner buyField;
+    private JSpinner sellField;
     private JButton OK;
     private Good good;
     int buy, sell, rest, amount, total;
@@ -32,21 +32,21 @@ public class Trader {
         buyLabel = new JLabel("Закупити товару: ");
         sellLabel = new JLabel("Спродати товару: ");
 
-        buyField = new JTextField("Купівля");
-        sellField = new JTextField("Продаж");
+        buyField = new JSpinner();
+        sellField = new JSpinner();
 
         OK = new JButton("OK");
         OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean b = check();
-                if(b){
+                if(check()){
                     boolean right = calculate();
                     if(right){
                         int newAmount = total;
                         JOptionPane.showMessageDialog(null,"Чудово! Тепер одиниць на складі: "+newAmount, "Success operation", JOptionPane.INFORMATION_MESSAGE);
                         g.setAmount(newAmount);
                         tradeFrame.dispose(); // close the previous GoodsMenu
+                        GoodsMenu.goodsFrame.dispose();
                         GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds()); // open the updated GoodsMenu
                     }
                 }
@@ -70,15 +70,15 @@ public class Trader {
     }
 
     private void reset() {
-        buyField.setText("Купівля...");
-        sellField.setText("Продаж...");
+        buyField.setValue(0);
+        sellField.setValue(0);
     }
 
     private boolean calculate(){
         boolean isLegal = false;
 
-        buy = Integer.parseInt(buyField.getText());
-        sell = Integer.parseInt(sellField.getText());
+        buy = (int) buyField.getValue();
+        sell = (int) sellField.getValue();
 
         amount = good.amount;
         rest = buy-sell;
@@ -94,21 +94,11 @@ public class Trader {
     private boolean check(){
         boolean isCorrect;
 
-        isCorrect = cycle(buyField.getText());
+        isCorrect = ((int) buyField.getValue()) >= 0;
         if(isCorrect){
-            isCorrect = cycle(sellField.getText());
+            isCorrect = ((int) sellField.getValue()) >= 0;
         }
         return isCorrect;
     }
 
-    private boolean cycle(String s){
-
-        if(s.equals("") || s.equals(" ")) return false;
-        for(char c: s.toCharArray()){
-            if(!Character.isDigit(c)) {
-                return false;
-            }
-        }
-        return true;
-    }
 }
