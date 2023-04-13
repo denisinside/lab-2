@@ -3,7 +3,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,23 +13,26 @@ public class GroupsMenu {
     private static DefaultMutableTreeNode root;
     private static JFrame groupsFrame;
     private static DefaultMutableTreeNode selectedNode;
+    private static ProductGroupTree tree;
     static ImageIcon groupIcon;
     static ImageIcon goodIcon;
 
     public static void setGroupsMenu(Rectangle bounds) {
         groupsFrame = new JFrame("Групи товарів");
-        //groupsFrame.addWindowListener(new ShopWindowListener());
+
+        groupsFrame.addWindowListener(new ShopWindowListener());
+
         groupsFrame.setBounds(bounds);
         groupsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         groupsFrame.setLayout(new BorderLayout());
 
-        ProductGroupTree tree = new ProductGroupTree();
+         tree = new ProductGroupTree();
 
         JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(Color.ORANGE);
+        logoPanel.setBackground(Color.decode("#BBB1FA"));
         JLabel logo = new JLabel("Вибір Груп Товарів");
-        logo.setForeground(Color.BLUE);
-        logo.setFont(new Font("Arial Black", Font.BOLD, 32));
+        logo.setForeground(Color.decode("#6358AD"));
+        logo.setFont(new Font("Impact", Font.BOLD, 50));
         logoPanel.add(logo);
 
         JPanel buttons = new JPanel(new GridLayout(1,3));
@@ -39,21 +42,29 @@ public class GroupsMenu {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
                 editGroup((Group)selectedNode.getUserObject(),"Редагування");
                 productTree.updateUI();
+            } else if (selectedNode != null && selectedNode.getUserObject().getClass() == Good.class) {
+                new EditOrAddGood().setEditMenu((Good)selectedNode.getUserObject(),"Редагування");
+                productTree.updateUI();
             }
         });
 
         JButton deleteButton = new JButton("Видалити");
         deleteButton.addActionListener(e -> {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
-                root.remove(selectedNode);
-                Group g = (Group) selectedNode.getUserObject();
-                Shop.goodsArray.removeIf(good -> good.groupName.equals(g.name));
-                Shop.groupArray.remove(g);
-                productTree.updateUI();
+                Group group = (Group)selectedNode.getUserObject();
+                Shop.goodsArray.removeIf(good -> good.groupName.equals(group.name));
+                Shop.groupArray.removeIf(group1 -> group1.name.equals(group.name));
+            }else if (selectedNode != null && selectedNode.getUserObject().getClass() == Good.class) {
+                Shop.goodsArray.removeIf( (g1) ->((Good) selectedNode.getUserObject()).name.equals(g1.name));
             }
+            root = new DefaultMutableTreeNode("АТБ.  Загальна вартість магазину: " + getShopValue() + " грн");
+            tree.setNode();
+            productTree.setModel(new javax.swing.tree.DefaultTreeModel(root));
+
         });
         JButton backToMenuButton = new JButton("Повернутися");
         backToMenuButton.addActionListener(e -> {
+            selectedNode = null;
             groupsFrame.setVisible(false);
             MainMenu.mainFrame.setBounds(groupsFrame.getBounds());
             MainMenu.mainFrame.setVisible(true);
@@ -61,7 +72,6 @@ public class GroupsMenu {
         JButton addButton = new JButton("Додати групу");
         addButton.addActionListener(e -> {
             editGroup(new Group("",""), "Додавання нової групи товарів");
-            System.out.println("adding");
 
         });
         buttons.add(addButton);
@@ -74,6 +84,12 @@ public class GroupsMenu {
         groupsFrame.add(buttons, BorderLayout.SOUTH);
         groupsFrame.setVisible(true);
     }
+    private static int getShopValue(){
+        int sum = 0;
+        for (Good good : Shop.goodsArray) sum += good.getProductTypeValue();
+        return sum;
+    }
+
 
     private static void editGroup(Group g,String operation){
         JFrame editFrame = new JFrame(operation + " " + g.name);
@@ -99,7 +115,6 @@ public class GroupsMenu {
                 if (!g.name.equals("")) {
                     root.add(new DefaultMutableTreeNode(g));
                     Shop.groupArray.add(g);
-                    System.out.println("Group added to tree and group array: " + g);
                 }
             }
             editFrame.setVisible(false);
@@ -120,12 +135,11 @@ public class GroupsMenu {
     private static class ProductGroupTree extends JPanel {
 
         public ProductGroupTree()  {
-            root = new DefaultMutableTreeNode("АТБ");
+            root = new DefaultMutableTreeNode("АТБ.  Загальна вартість магазину: " + getShopValue() + " грн");
             setNode();
 
             productTree = new JTree(root);
-            productTree.setBackground(new Color(252, 233, 174));
-            productTree.setForeground(Color.ORANGE);
+            productTree.setBackground(Color.decode("#FAF0B2"));
             productTree.setCellRenderer(new CustomTreeCellRenderer());
             productTree.setFont(new Font("Arial Black", Font.PLAIN, 20));
 
@@ -146,6 +160,7 @@ public class GroupsMenu {
                 for (Good good : Shop.goodsArray){
                     if (good.groupName.equals(group.name)){
                         DefaultMutableTreeNode goodNode = new DefaultMutableTreeNode(good,false);
+
                         node.add(goodNode);
                     }
                 }
@@ -164,8 +179,10 @@ public class GroupsMenu {
                     Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
                     if (userObject instanceof Group) {
                         setIcon(groupIcon);
+                        setToolTipText(((Group) userObject).description);
                     } else if (userObject instanceof Good) {
                         setIcon(goodIcon);
+                        setToolTipText(((Good) userObject).description);
                     }
                 }
 
