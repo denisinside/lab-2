@@ -17,7 +17,7 @@ public class GoodsMenu {
     private static JPopupMenu filterPopup;
     private static JMenuItem dateFilter, alphabetFilter, costFilter, valueFilter;
     private static String currentFilter = "дата";
-    private static ArrayList<GoodPanel> goodPanels;
+    private static ArrayList<GoodPanel> goodPanels, goodsPanelUsingFilter;
     private static JPanel middlePanel;
     protected static void setGoodsMenu(Rectangle bounds){
 
@@ -141,18 +141,18 @@ public class GoodsMenu {
         goodsFrame.add(frameMiddleScroll, BorderLayout.CENTER);
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
-
+        goodsPanelUsingFilter = new ArrayList<>(goodPanels);
     }
 
     private static void useFilter(){
-        ArrayList<GoodPanel> usingFilter = new ArrayList<>(goodPanels);
-        if (currentFilter.equals("алфавіт")) usingFilter.sort((s1, s2) -> {
+        if (currentFilter.equals("дата"))goodsPanelUsingFilter = new ArrayList<>(goodPanels);
+        if (currentFilter.equals("алфавіт")) goodsPanelUsingFilter.sort((s1, s2) -> {
             Collator collator = Collator.getInstance(new Locale("uk"));
             return collator.compare(s1.good.name, s2.good.name);
         });
-        if (currentFilter.equals("ціна")) usingFilter.sort((e1,e2) -> Integer.compare(e2.good.price,e1.good.price));
-        if (currentFilter.equals("вартість")) usingFilter.sort((e1,e2) -> Integer.compare(e2.good.getProductTypeValue(),e1.good.getProductTypeValue()));
-        Iterator<GoodPanel> goodPanelIterator = usingFilter.iterator();
+        if (currentFilter.equals("ціна")) goodsPanelUsingFilter.sort((e1,e2) -> Integer.compare(e2.good.price,e1.good.price));
+        if (currentFilter.equals("вартість")) goodsPanelUsingFilter.sort((e1,e2) -> Integer.compare(e2.good.getProductTypeValue(),e1.good.getProductTypeValue()));
+        Iterator<GoodPanel> goodPanelIterator = goodsPanelUsingFilter.iterator();
         middlePanel.removeAll();
         while (goodPanelIterator.hasNext()){
                 middlePanel.add(goodPanelIterator.next());
@@ -227,9 +227,9 @@ public class GoodsMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             String searched = searchField.getText();
-            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
+            if (searched.equals("")) goodsPanelUsingFilter = new ArrayList<>(goodPanels);
+            Iterator<GoodPanel> goodPanelIterator = goodsPanelUsingFilter.iterator();
             middlePanel.removeAll();
-
             while (goodPanelIterator.hasNext()){
                 GoodPanel gp = goodPanelIterator.next();
                 if (gp.good.name.toLowerCase().startsWith(searched.toLowerCase())){
@@ -252,7 +252,7 @@ public class GoodsMenu {
     private static final ActionListener deleteSelectedGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
+            Iterator<GoodPanel> goodPanelIterator = goodsPanelUsingFilter.iterator();
             while (goodPanelIterator.hasNext()){
                 GoodPanel gp = goodPanelIterator.next();
                 if (gp.isToDeleteSelected()){
