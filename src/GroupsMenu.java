@@ -12,7 +12,6 @@ public class GroupsMenu {
     private static JTree productTree;
     private static DefaultMutableTreeNode root;
     private static JFrame groupsFrame;
-    private static JButton editButton, deleteButton, backToMenuButton, addButton;
     private static DefaultMutableTreeNode selectedNode;
     private static ProductGroupTree tree;
     static ImageIcon groupIcon;
@@ -38,7 +37,7 @@ public class GroupsMenu {
 
         JPanel buttons = new JPanel(new GridLayout(1,3));
         buttons.setPreferredSize(new Dimension(groupsFrame.getWidth(),groupsFrame.getHeight()/8));
-        editButton = new JButton("Редагувати");
+        JButton editButton = new JButton("Редагувати");
         editButton.addActionListener(e -> {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
                 editGroup((Group)selectedNode.getUserObject(),"Редагування");
@@ -49,7 +48,7 @@ public class GroupsMenu {
             }
         });
 
-        deleteButton = new JButton("Видалити");
+        JButton deleteButton = new JButton("Видалити");
         deleteButton.addActionListener(e -> {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
                 Group group = (Group)selectedNode.getUserObject();
@@ -63,14 +62,14 @@ public class GroupsMenu {
             productTree.setModel(new javax.swing.tree.DefaultTreeModel(root));
 
         });
-        backToMenuButton = new JButton("Повернутися");
+        JButton backToMenuButton = new JButton("Повернутися");
         backToMenuButton.addActionListener(e -> {
             selectedNode = null;
             groupsFrame.setVisible(false);
             MainMenu.mainFrame.setBounds(groupsFrame.getBounds());
             MainMenu.mainFrame.setVisible(true);
         });
-        addButton = new JButton("Додати групу");
+        JButton addButton = new JButton("Додати групу");
         addButton.addActionListener(e -> {
             editGroup(new Group("",""), "Додавання нової групи товарів");
 

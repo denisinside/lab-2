@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-public class Group implements Serializable {
+public class Group {
     String name;
     String description;
 
@@ -8,13 +6,7 @@ public class Group implements Serializable {
         this.name = name;
         this.description = description;
     }
-    private int getGoodGroupValue(){
-        int sum = 0;
-        for (Good good : Shop.goodsArray) if(good.groupName.equals(name))sum += good.getProductTypeValue();
-        return sum;
-    }
-    @Override
-    public String toString() {
-        return name + "  | " + description  + "| Загальна вартість: " + String.format("%,d", getGoodGroupValue()) + " грн";
+    public String toString(){
+        return name;
     }
 }
