@@ -3,7 +3,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,6 +11,7 @@ public class GroupsMenu {
     private static JTree productTree;
     private static DefaultMutableTreeNode root;
     private static JFrame groupsFrame;
+    private static JButton editButton, deleteButton, backToMenuButton, addButton;
     private static DefaultMutableTreeNode selectedNode;
     private static ProductGroupTree tree;
     static ImageIcon groupIcon;
@@ -37,7 +37,7 @@ public class GroupsMenu {
 
         JPanel buttons = new JPanel(new GridLayout(1,3));
         buttons.setPreferredSize(new Dimension(groupsFrame.getWidth(),groupsFrame.getHeight()/8));
-        JButton editButton = new JButton("Редагувати");
+        editButton = new JButton("Редагувати");
         editButton.addActionListener(e -> {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
                 editGroup((Group)selectedNode.getUserObject(),"Редагування");
@@ -48,7 +48,7 @@ public class GroupsMenu {
             }
         });
 
-        JButton deleteButton = new JButton("Видалити");
+        deleteButton = new JButton("Видалити");
         deleteButton.addActionListener(e -> {
             if (selectedNode != null && selectedNode.getUserObject().getClass() == Group.class) {
                 Group group = (Group)selectedNode.getUserObject();
@@ -62,14 +62,14 @@ public class GroupsMenu {
             productTree.setModel(new javax.swing.tree.DefaultTreeModel(root));
 
         });
-        JButton backToMenuButton = new JButton("Повернутися");
+        backToMenuButton = new JButton("Повернутися");
         backToMenuButton.addActionListener(e -> {
             selectedNode = null;
             groupsFrame.setVisible(false);
             MainMenu.mainFrame.setBounds(groupsFrame.getBounds());
             MainMenu.mainFrame.setVisible(true);
         });
-        JButton addButton = new JButton("Додати групу");
+        addButton = new JButton("Додати групу");
         addButton.addActionListener(e -> {
             editGroup(new Group("",""), "Додавання нової групи товарів");
 

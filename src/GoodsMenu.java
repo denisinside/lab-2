@@ -2,27 +2,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 public class GoodsMenu {
 
-    static JFrame goodsFrame;
-    private static final Toolkit tk = Toolkit.getDefaultToolkit();
-    private static final Dimension screenDimension = tk.getScreenSize();
+    public static JFrame goodsFrame;
+    private static Toolkit tk = Toolkit.getDefaultToolkit();
+    private static Dimension screenDimension = tk.getScreenSize();
+    private static JButton add, edit, delete, searchButton, back, filterButton;
     private static JTextField searchField;
-    static ArrayList<GoodPanel> goodPanels;
+    private static JPopupMenu filterPopup;
+    private static JMenuItem dateFilter, alphabetFilter, costFilter, valueFilter;
+    private static String currentFilter = "дата";
+    private static ArrayList<GoodPanel> goodPanels;
     private static JPanel middlePanel;
-
-    public GoodsMenu(GoodsMenu goodsMenu) {
-    }
-
-    protected static void setGoodsMenu(){
+    protected static void setGoodsMenu(Rectangle bounds){
 
         // НАЛАШТУВАННЯ ВІКНА //
         goodsFrame = new JFrame("Опції з товарами");
+        goodsFrame.addWindowListener(new ShopWindowListener());
         goodsFrame.setLayout(new BorderLayout());
-        goodsFrame.setBounds((int)(MainMenu.screenDimension.width/5.5),MainMenu.screenDimension.height/10,1200,900);
+        goodsFrame.setBounds(bounds);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // ВЕРХНЯ ЧАСТИНА //
@@ -31,22 +34,64 @@ public class GoodsMenu {
 
         // ТЕКСТ "НАУКМА МАГАЗ" //
         JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(Color.WHITE);
+        logoPanel.setBackground(Color.decode("#BBB1FA"));
         JLabel logo = new JLabel("Вибір Товарів");
-        logo.setForeground(Color.BLACK);
-        logo.setFont(new Font("Arial Black", Font.BOLD, 32));
+        logo.setForeground(Color.decode("#6358AD"));
+        logo.setFont(new Font("Impact", Font.BOLD, 40));
         logoPanel.add(logo);
         frameTop.add(logoPanel);
 
+
         // НИЖНЯ ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ //
-        JPanel searchPanel = new JPanel(new GridLayout(1,2));
-        JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
+        JPanel searchPanel = new JPanel(new GridLayout(1,1));
+        JPanel buttonsPanel = new JPanel(new GridLayout(1,3));
         searchField = new JTextField("Пошук...");
         searchPanel.add(searchField);
-        JButton search = new JButton("Шукати");
-        buttonsPanel.add(search);
-        JButton back = new JButton("Назад");
-        search.addActionListener(startSearch);
+        searchButton = new JButton("Шукати");
+        searchButton.addActionListener(startSearch);
+        buttonsPanel.add(searchButton);
+        back = new JButton("Назад");
+
+        filterButton = new JButton("Фільтер");
+        buttonsPanel.add(filterButton);
+        filterButton.addActionListener(e -> {
+            Point buttonLocationOnScreen = filterButton.getLocationOnScreen();
+            filterPopup.setLocation(buttonLocationOnScreen.x, buttonLocationOnScreen.y);
+            filterPopup.setVisible(true);
+        });
+        filterPopup = new JPopupMenu();
+        dateFilter = new JMenuItem("За часом додавання");
+        dateFilter.addActionListener(e -> {
+            currentFilter = "дата";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+        alphabetFilter = new JMenuItem("За алфавітом");
+        alphabetFilter.addActionListener(e -> {
+            currentFilter = "алфавіт";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+        costFilter = new JMenuItem("За ціною");
+        costFilter.addActionListener(e -> {
+            currentFilter = "ціна";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+        valueFilter = new JMenuItem("За заг. вартістю");
+        valueFilter.addActionListener(e -> {
+            currentFilter = "вартість";
+            useFilter();
+            filterPopup.setVisible(false);
+        });
+
+        filterPopup.add(dateFilter);
+        filterPopup.add(alphabetFilter);
+        filterPopup.add(costFilter);
+        filterPopup.add(valueFilter);
+
+        searchButton.addActionListener(startSearch);
+
         back.addActionListener(goToMenu);
         buttonsPanel.add(back);
         searchPanel.add(buttonsPanel);
@@ -58,7 +103,7 @@ public class GoodsMenu {
         int numColumns = goodsFrame.getWidth() / (goodPanelWidth + 20); // Add 20 for spacing
 
         middlePanel = new JPanel(new GridLayout(0, numColumns, 20, 20));
-        middlePanel.setBackground(new Color(252, 233, 174));
+        middlePanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
         goodPanels = new ArrayList<>();
         for (Good good : Shop.goodsArray){
@@ -69,6 +114,8 @@ public class GoodsMenu {
 
         JPanel frameMiddleWrapper = new JPanel(new BorderLayout());
         frameMiddleWrapper.add(middlePanel, BorderLayout.NORTH);
+        middlePanel.setBackground(Color.decode("#FAF0B2"));
+        frameMiddleWrapper.setBackground(Color.decode("#FAF0B2"));
 
         JScrollPane frameMiddleScroll = new JScrollPane(frameMiddleWrapper);
         frameMiddleScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -77,9 +124,12 @@ public class GoodsMenu {
         // НИЖНЯ ЧАСТИНА З КНОПКАМИ "ВИДАЛИТИ І ДОДАТИ" //
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
-        JButton add = new JButton("Додати");
-        JButton delete = new JButton("Видалити");
-        add.addActionListener(addGood);
+        add = new JButton("Додати");
+        add.addActionListener(e -> {
+            EditOrAddGood editOrAddGood = new EditOrAddGood();
+            editOrAddGood.setEditMenu(new Good("","","",0,0,""),"Додавання");
+        });
+        delete = new JButton("Видалити");
         delete.addActionListener(deleteSelectedGoods);
         frameBottom.add(add);
         frameBottom.add(delete);
@@ -90,6 +140,23 @@ public class GoodsMenu {
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
 
+    }
+
+    private static void useFilter(){
+        ArrayList<GoodPanel> usingFilter = new ArrayList<>(goodPanels);
+        if (currentFilter.equals("алфавіт")) usingFilter.sort((s1, s2) -> {
+            Collator collator = Collator.getInstance(new Locale("uk"));
+            return collator.compare(s1.good.name, s2.good.name);
+        });
+        if (currentFilter.equals("ціна")) usingFilter.sort((e1,e2) -> Integer.compare(e2.good.price,e1.good.price));
+        if (currentFilter.equals("вартість")) usingFilter.sort((e1,e2) -> Integer.compare(e2.good.getProductTypeValue(),e1.good.getProductTypeValue()));
+        Iterator<GoodPanel> goodPanelIterator = usingFilter.iterator();
+        middlePanel.removeAll();
+        while (goodPanelIterator.hasNext()){
+                middlePanel.add(goodPanelIterator.next());
+        }
+        middlePanel.revalidate();
+        middlePanel.repaint();
     }
 
 //************************ ВНУТРІШНІЙ КЛАС ПАНЕЛІ ТОВАРІВ ************************* //
@@ -106,23 +173,26 @@ public class GoodsMenu {
             setBackground(Color.GRAY);
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
-            setBackground(new Color(252, 220, 120));
+            setBackground(Color.decode("#ADA46A"));
             add(good.image, BorderLayout.NORTH);
 
-            JTextArea goodDescription = new JTextArea(good.toString());
+            JTextArea goodDescription = new JTextArea(good.toStringPanel());
             goodDescription.setEditable(false);
             goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             JScrollPane description = new JScrollPane(goodDescription);
             add(description, BorderLayout.CENTER);
 
             JPanel buttonPanel = new JPanel( new BorderLayout());
-            buttonPanel.setBackground(new Color(252, 220, 120));
+            buttonPanel.setBackground(Color.decode("#ADA46A"));
             JPanel buttons = new JPanel(new BorderLayout());
             JButton edit = new JButton("Редагувати");
-            edit.addActionListener(editSelected);
+            edit.addActionListener(e -> {
+                EditOrAddGood editOrAddGood = new EditOrAddGood();
+                editOrAddGood.setEditMenu(good,"Редагування");
+            });
 
             JButton buySell = new JButton("Купівля/Продаж");
-            buySell.addActionListener(buySelected);
+            buySell.addActionListener(tradeSelected);
 
             toDelete = new JCheckBox();
 
@@ -148,13 +218,13 @@ public class GoodsMenu {
         }
     }
 
+
 // ********************************************************************************* //
 
     private static final ActionListener startSearch = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             String searched = searchField.getText();
-            middlePanel.removeAll();
             Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
             middlePanel.removeAll();
 
@@ -170,20 +240,19 @@ public class GoodsMenu {
     };
 
     private static final ActionListener goToMenu = new ActionListener() {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            goodsFrame.dispose();
+            goodsFrame.setVisible(false);
             MainMenu.mainFrame.setVisible(true);
+            MainMenu.mainFrame.setBounds(goodsFrame.getBounds());
         }
     };
-        private static final ActionListener deleteSelectedGoods = new ActionListener() {
+    private static final ActionListener deleteSelectedGoods = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             Iterator<GoodPanel> goodPanelIterator = goodPanels.iterator();
             while (goodPanelIterator.hasNext()){
                 GoodPanel gp = goodPanelIterator.next();
-
                 if (gp.isToDeleteSelected()){
                     goodPanelIterator.remove();
                     Shop.goodsArray.remove(gp.getGood());
@@ -195,33 +264,7 @@ public class GoodsMenu {
 
         }
     };
-
-    private static final ActionListener addGood = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            AddGood ad = new AddGood();
-            ad.setAddGood();
-        }
-    };
-
-    private static final ActionListener editSelected = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String actionCommand = e.getActionCommand();
-            String[] commandParts = actionCommand.split("_");
-            int panelId = Integer.parseInt(commandParts[1]);
-
-            for (GoodPanel goodPanel : goodPanels) {
-                if (goodPanel.getPanelId() == panelId) {
-                    EditGood ed = new EditGood();
-                    ed.setEditMenu(goodPanel.getGood());
-                    break;
-                }
-            }
-        }
-    };
-
-    private static final ActionListener buySelected = new ActionListener() {
+    private static final ActionListener tradeSelected = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             String act = e.getActionCommand();

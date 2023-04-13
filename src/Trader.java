@@ -44,7 +44,7 @@ public class Trader {
                         g.setAmount(newAmount);
                         tradeFrame.dispose(); // close the previous GoodsMenu
                         GoodsMenu.goodsFrame.dispose();
-                        GoodsMenu.setGoodsMenu(); // open the updated GoodsMenu
+                        GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds()); // open the updated GoodsMenu
                     }
                     else{
                         JOptionPane.showMessageDialog(null,"Операція неможлива: від'ємний результат!", "Result error", JOptionPane.ERROR_MESSAGE);
@@ -78,10 +78,10 @@ public class Trader {
     private boolean calculate(){
         boolean isLegal;
 
-        if(buyField.getText().isEmpty() || buyField.getText().isBlank()) buy=0;
-        else buy = Integer.parseInt(buyField.getText());
-        if(sellField.getText().isEmpty() || sellField.getText().isBlank()) sell=0;
-        else sell = Integer.parseInt(sellField.getText());
+    if(buyField.getText().isEmpty() || buyField.getText().isBlank()) buy=0;
+    else buy = Integer.parseInt(buyField.getText());
+    if(sellField.getText().isEmpty() || sellField.getText().isBlank()) sell=0;
+    else sell = Integer.parseInt(sellField.getText());
 
         int amount = good.amount;
         int rest = buy - sell;
@@ -103,9 +103,9 @@ public class Trader {
         }
         else if (sellField.getText().isEmpty() && buyField.getText().isEmpty())  return false;
         else{
-            buyIsCor = cycle(buyField.getText());
-            sellIsCor = cycle(sellField.getText());
-            isCorrect = buyIsCor && sellIsCor;
+          buyIsCor = cycle(buyField.getText());
+          sellIsCor = cycle(sellField.getText());
+          isCorrect = buyIsCor && sellIsCor;
         }
 
         return isCorrect;
