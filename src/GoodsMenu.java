@@ -126,8 +126,10 @@ public class GoodsMenu {
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
         add = new JButton("Додати");
         add.addActionListener(e -> {
-            EditOrAddGood editOrAddGood = new EditOrAddGood();
-            editOrAddGood.setEditMenu(new Good("","","",0,0,""),"Додавання");
+            if (Shop.groupArray.size() != 0) {
+                EditOrAddGood editOrAddGood = new EditOrAddGood();
+                editOrAddGood.setEditMenu(new Good("", "", "", 0, 0, ""), "Додавання");
+            }
         });
         delete = new JButton("Видалити");
         delete.addActionListener(deleteSelectedGoods);

@@ -54,9 +54,11 @@ public class Good implements Serializable {
     }
     public String toStringPanel(){
         return  name +
+                (description.length() > 60 ? "\n" : "") +
                 "\n Опис: " + description +
-                "\n Виробник: " + producer + " грн" +
-                "\n Ціна за одиницю: " + price +
+                (description.length() > 60 ? "\n" : "") +
+                "\n Виробник: " + producer  +
+                "\n Ціна за одиницю: " + price + " грн" +
                 "\n Кількість на складі: " + amount +
                 "\n Загальна вартість: " + String.format("%,d",getProductTypeValue()) + " грн";
 

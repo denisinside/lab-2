@@ -132,8 +132,11 @@ public class EditOrAddGood {
         if (operation.equals("Редагування")){
             JOptionPane.showMessageDialog(null, "Товар успішно змінено!", "Success", JOptionPane.INFORMATION_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(null, "Товар успішно додано!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            Shop.goodsArray.add(good);
+            if (Shop.goodsArray.stream().noneMatch(g -> g.name.equals(good.name))) {
+                JOptionPane.showMessageDialog(null, "Товар успішно додано!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                Shop.goodsArray.add(good);
+            }else
+                JOptionPane.showMessageDialog(null,"Товар з таким ім'ям вже є!", "Input error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Shop {
     protected static ArrayList<Good> goodsArray;
 
     public Shop() throws MalformedURLException {
-        setData1();
+        setData();
         MainMenu.setMainMenu();
 
     }
@@ -66,15 +67,30 @@ public class Shop {
     }
 
     public static void setData()  {
+        GroupsMenu.setIcons();
+        try {
+            Good.setDefaultImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3eUqe0gzy74YsDqHf365i8SEldyqxCbmqO0O50o1G1rtzCqSpV3CxDaD6Cv3FQr6Fl9g&usqp=CAU");
+        }catch (MalformedURLException ignored){}
         try {
             ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get("goods.naukma")));
             goodsArray = (ArrayList<Good>) ois.readObject();
             ois.close();
+        } catch (IOException | ClassNotFoundException e) {
+            try {
+                Files.createFile(Paths.get("goods.naukma"));
+                goodsArray = new ArrayList<>();
+
+            } catch (IOException ignored) {}
+        }
+        try {
             ObjectInputStream ois1 = new ObjectInputStream(Files.newInputStream(Paths.get("groups.naukma")));
             groupArray = (ArrayList<Group>) ois1.readObject();
             ois1.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            try {
+                Files.createFile(Paths.get("groups.naukma"));
+                groupArray = new ArrayList<>();
+            } catch (IOException ignored) {}
         }
     }
 

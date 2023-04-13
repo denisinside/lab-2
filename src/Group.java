@@ -15,6 +15,6 @@ public class Group implements Serializable {
     }
     @Override
     public String toString() {
-        return name + "  | " + description  + "| Загальна вартість: " + String.format("%,d", getGoodGroupValue()) + " грн";
+        return name + "  | " + description  + " | Загальна вартість: " + String.format("%,d", getGoodGroupValue()) + " грн";
     }
 }

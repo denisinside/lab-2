@@ -78,9 +78,9 @@ public class Trader {
     private boolean calculate(){
         boolean isLegal;
 
-    if(buyField.getText().isEmpty() || buyField.getText().isBlank()) buy=0;
+    if(buyField.getText().isEmpty() || buyField.getText().equals("")) buy=0;
     else buy = Integer.parseInt(buyField.getText());
-    if(sellField.getText().isEmpty() || sellField.getText().isBlank()) sell=0;
+    if(sellField.getText().isEmpty() || sellField.getText().equals("")) sell=0;
     else sell = Integer.parseInt(sellField.getText());
 
         int amount = good.amount;
@@ -95,10 +95,10 @@ public class Trader {
         boolean buyIsCor;
         boolean sellIsCor;
 
-        if(buyField.getText().isEmpty() || buyField.getText().isBlank()){
+        if(buyField.getText().isEmpty() || buyField.getText().equals("")){
             isCorrect = cycle(sellField.getText());
         }
-        else if(sellField.getText().isEmpty() || sellField.getText().isBlank()){
+        else if(sellField.getText().isEmpty() || sellField.getText().equals("")){
             isCorrect = cycle(buyField.getText());
         }
         else if (sellField.getText().isEmpty() && buyField.getText().isEmpty())  return false;
@@ -113,7 +113,7 @@ public class Trader {
 
     private boolean cycle(String s){
 
-        if(s.isEmpty() && s.isBlank()) return false;
+        if(s.isEmpty() || s.equals("")) return false;
         for(char c: s.toCharArray()){
             if(!Character.isDigit(c) || c=='-') {
                 return false;

@@ -108,14 +108,19 @@ public class GroupsMenu {
 
         JButton approve = new JButton("Підтвердити");
         approve.addActionListener(e -> {
-            for (Good good : Shop.goodsArray) if (good.groupName.equals(g.name)) good.groupName = name.getText();
             g.name = name.getText();
             g.description = description.getText();
-            if (!operation.equals("Редагування")) {
-                if (!g.name.equals("")) {
-                    root.add(new DefaultMutableTreeNode(g));
-                    Shop.groupArray.add(g);
-                }
+            if (operation.equals("Редагування")){
+                for (Good good : Shop.goodsArray) if (good.groupName.equals(g.name)) good.groupName = name.getText();
+
+            } else {
+                if (Shop.groupArray.stream().noneMatch(group -> group.name.equals(g.name))) {
+                    if (!g.name.equals("")) {
+                        root.add(new DefaultMutableTreeNode(g));
+                        Shop.groupArray.add(g);
+                    }
+                }else
+                    JOptionPane.showMessageDialog(null,"Група з таким ім'ям вже є!", "Input error", JOptionPane.ERROR_MESSAGE);
             }
             editFrame.setVisible(false);
             productTree.updateUI();
@@ -135,7 +140,7 @@ public class GroupsMenu {
     private static class ProductGroupTree extends JPanel {
 
         public ProductGroupTree()  {
-            root = new DefaultMutableTreeNode("АТБ.  Загальна вартість магазину: " + getShopValue() + " грн");
+            root = new DefaultMutableTreeNode("АТБ.  Загальна вартість магазину: " + String.format("%,d", getShopValue()) + " грн");
             setNode();
 
             productTree = new JTree(root);
@@ -144,11 +149,7 @@ public class GroupsMenu {
             productTree.setFont(new Font("Arial Black", Font.PLAIN, 20));
 
 
-            productTree.addTreeSelectionListener(new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e) {
-                    selectedNode = (DefaultMutableTreeNode) productTree.getLastSelectedPathComponent();
-                }
-            });
+            productTree.addTreeSelectionListener(e -> selectedNode = (DefaultMutableTreeNode) productTree.getLastSelectedPathComponent());
 
             setLayout(new BorderLayout());
             add(new JScrollPane(productTree), BorderLayout.CENTER);
