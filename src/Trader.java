@@ -5,17 +5,13 @@ import java.awt.event.ActionListener;
 
 public class Trader {
     private JFrame tradeFrame;
-    private JPanel tradePanel;
-    private JPanel buttonPanel;
-    private JPanel infoPanel;
-    private JLabel infoLabel;
-    private JLabel buyLabel;
-    private JLabel sellLabel;
     private JTextField buyField;
     private JTextField sellField;
-    private JButton OK;
     private Good good;
-    int buy, sell, rest, amount, total;
+    private int buy;
+    private int sell;
+    private int total;
+
 
     void setTradeMenu(Good g){
         good=g;
@@ -23,19 +19,19 @@ public class Trader {
         tradeFrame.setBounds(MainMenu.screenDimension.width/4,MainMenu.screenDimension.width/4,500,400);
         tradeFrame.setLayout(new BorderLayout());
 
-        tradePanel = new JPanel(new GridLayout(3,2,20,30));
-        buttonPanel = new JPanel(new FlowLayout());
-        infoPanel = new JPanel(new FlowLayout());
+        JPanel tradePanel = new JPanel(new GridLayout(3, 2, 20, 30));
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JPanel infoPanel = new JPanel(new FlowLayout());
 
 
-        infoLabel = new JLabel("Кількість товару на складі: "+ g.amount);
-        buyLabel = new JLabel("Закупити товару: ");
-        sellLabel = new JLabel("Спродати товару: ");
+        JLabel infoLabel = new JLabel("Кількість товару на складі: " + g.amount);
+        JLabel buyLabel = new JLabel("Закупити товару: ");
+        JLabel sellLabel = new JLabel("Спродати товару: ");
 
-        buyField = new JTextField("Купівля");
-        sellField = new JTextField("Продаж");
+        buyField = new JTextField("");
+        sellField = new JTextField("");
 
-        OK = new JButton("OK");
+        JButton OK = new JButton("OK");
         OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +43,12 @@ public class Trader {
                         JOptionPane.showMessageDialog(null,"Чудово! Тепер одиниць на складі: "+newAmount, "Success operation", JOptionPane.INFORMATION_MESSAGE);
                         g.setAmount(newAmount);
                         tradeFrame.dispose(); // close the previous GoodsMenu
+                        GoodsMenu.goodsFrame.dispose();
                         GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds()); // open the updated GoodsMenu
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Операція неможлива: від'ємний результат!", "Result error", JOptionPane.ERROR_MESSAGE);
+                        reset();
                     }
                 }
                 else{
@@ -70,42 +71,51 @@ public class Trader {
     }
 
     private void reset() {
-        buyField.setText("Купівля...");
-        sellField.setText("Продаж...");
+        buyField.setText("");
+        sellField.setText("");
     }
 
     private boolean calculate(){
-        boolean isLegal = false;
+        boolean isLegal;
 
-        buy = Integer.parseInt(buyField.getText());
-        sell = Integer.parseInt(sellField.getText());
+    if(buyField.getText().isEmpty() || buyField.getText().isBlank()) buy=0;
+    else buy = Integer.parseInt(buyField.getText());
+    if(sellField.getText().isEmpty() || sellField.getText().isBlank()) sell=0;
+    else sell = Integer.parseInt(sellField.getText());
 
-        amount = good.amount;
-        rest = buy-sell;
-        total = amount+rest;
+        int amount = good.amount;
+        int rest = buy - sell;
+        total = amount + rest;
 
-        if(total<0){
-            JOptionPane.showMessageDialog(null,"Операція неможлива: від'ємний результат!", "Result error", JOptionPane.ERROR_MESSAGE);
-            reset();
-        }
-        else return true;
+        isLegal = total >= 0;
         return isLegal;
     }
     private boolean check(){
         boolean isCorrect;
+        boolean buyIsCor;
+        boolean sellIsCor;
 
-        isCorrect = cycle(buyField.getText());
-        if(isCorrect){
+        if(buyField.getText().isEmpty() || buyField.getText().isBlank()){
             isCorrect = cycle(sellField.getText());
         }
+        else if(sellField.getText().isEmpty() || sellField.getText().isBlank()){
+            isCorrect = cycle(buyField.getText());
+        }
+        else if (sellField.getText().isEmpty() && buyField.getText().isEmpty())  return false;
+        else{
+          buyIsCor = cycle(buyField.getText());
+          sellIsCor = cycle(sellField.getText());
+          isCorrect = buyIsCor && sellIsCor;
+        }
+
         return isCorrect;
     }
 
     private boolean cycle(String s){
 
-        if(s.equals("") || s.equals(" ")) return false;
+        if(s.isEmpty() && s.isBlank()) return false;
         for(char c: s.toCharArray()){
-            if(!Character.isDigit(c)) {
+            if(!Character.isDigit(c) || c=='-') {
                 return false;
             }
         }
