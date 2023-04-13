@@ -10,12 +10,11 @@ import java.util.Locale;
 public class GoodsMenu {
 
     public static JFrame goodsFrame;
-    private static Toolkit tk = Toolkit.getDefaultToolkit();
-    private static Dimension screenDimension = tk.getScreenSize();
-    private static JButton add, edit, delete, searchButton, back, filterButton;
+    private static final Toolkit tk = Toolkit.getDefaultToolkit();
+    private static final Dimension screenDimension = tk.getScreenSize();
+    private static JButton filterButton;
     private static JTextField searchField;
     private static JPopupMenu filterPopup;
-    private static JMenuItem dateFilter, alphabetFilter, costFilter, valueFilter;
     private static String currentFilter = "дата";
     private static ArrayList<GoodPanel> goodPanels, goodsPanelUsingFilter;
     private static JPanel middlePanel;
@@ -37,7 +36,7 @@ public class GoodsMenu {
         logoPanel.setBackground(Color.decode("#BBB1FA"));
         JLabel logo = new JLabel("Вибір Товарів");
         logo.setForeground(Color.decode("#6358AD"));
-        logo.setFont(new Font("Impact", Font.BOLD, 40));
+        logo.setFont(new Font("Georgia", Font.BOLD, 40));
         logoPanel.add(logo);
         frameTop.add(logoPanel);
 
@@ -45,14 +44,28 @@ public class GoodsMenu {
         // НИЖНЯ ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ //
         JPanel searchPanel = new JPanel(new GridLayout(1,1));
         JPanel buttonsPanel = new JPanel(new GridLayout(1,3));
+        //JPanel aPanel = new JPanel(new FlowLayout());
+
+        ImageIcon i = new ImageIcon("search.jpg");
+        Image im = i.getImage();
+        im = im.getScaledInstance(40,40,Image.SCALE_SMOOTH);
+        i = new ImageIcon(im);
+
+        JLabel l = new JLabel();
+        l.setSize(50,50);
+        l.setIcon(i);
+
         searchField = new JTextField("Пошук...");
+        //aPanel.add(l);
+        //searchPanel.add(aPanel);
         searchPanel.add(searchField);
-        searchButton = new JButton("Шукати");
+
+        JButton searchButton = new JButton("Шукати");
         searchButton.addActionListener(startSearch);
         buttonsPanel.add(searchButton);
-        back = new JButton("Назад");
+        JButton back = new JButton("Назад");
 
-        filterButton = new JButton("Фільтер");
+        filterButton = new JButton("Фільтр");
         buttonsPanel.add(filterButton);
         filterButton.addActionListener(e -> {
             Point buttonLocationOnScreen = filterButton.getLocationOnScreen();
@@ -60,25 +73,25 @@ public class GoodsMenu {
             filterPopup.setVisible(true);
         });
         filterPopup = new JPopupMenu();
-        dateFilter = new JMenuItem("За часом додавання");
+        JMenuItem dateFilter = new JMenuItem("За часом додавання");
         dateFilter.addActionListener(e -> {
             currentFilter = "дата";
             useFilter();
             filterPopup.setVisible(false);
         });
-        alphabetFilter = new JMenuItem("За алфавітом");
+        JMenuItem alphabetFilter = new JMenuItem("За алфавітом");
         alphabetFilter.addActionListener(e -> {
             currentFilter = "алфавіт";
             useFilter();
             filterPopup.setVisible(false);
         });
-        costFilter = new JMenuItem("За ціною");
+        JMenuItem costFilter = new JMenuItem("За ціною");
         costFilter.addActionListener(e -> {
             currentFilter = "ціна";
             useFilter();
             filterPopup.setVisible(false);
         });
-        valueFilter = new JMenuItem("За заг. вартістю");
+        JMenuItem valueFilter = new JMenuItem("За заг. вартістю");
         valueFilter.addActionListener(e -> {
             currentFilter = "вартість";
             useFilter();
@@ -124,14 +137,14 @@ public class GoodsMenu {
         // НИЖНЯ ЧАСТИНА З КНОПКАМИ "ВИДАЛИТИ І ДОДАТИ" //
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
-        add = new JButton("Додати");
+        JButton add = new JButton("Додати");
         add.addActionListener(e -> {
             if (Shop.groupArray.size() != 0) {
                 EditOrAddGood editOrAddGood = new EditOrAddGood();
                 editOrAddGood.setEditMenu(new Good("", "", "", 0, 0, ""), "Додавання");
             }
         });
-        delete = new JButton("Видалити");
+        JButton delete = new JButton("Видалити");
         delete.addActionListener(deleteSelectedGoods);
         frameBottom.add(add);
         frameBottom.add(delete);
