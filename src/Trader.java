@@ -1,15 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Trader {
     private JFrame tradeFrame;
     private JTextField buyField;
     private JTextField sellField;
     private Good good;
-    private int buy;
-    private int sell;
     private int total;
 
 
@@ -32,29 +28,26 @@ public class Trader {
         sellField = new JTextField("");
 
         JButton OK = new JButton("OK");
-        OK.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean b = check();
-                if(b){
-                    boolean right = calculate();
-                    if(right){
-                        int newAmount = total;
-                        JOptionPane.showMessageDialog(null,"Чудово! Тепер одиниць на складі: "+newAmount, "Success operation", JOptionPane.INFORMATION_MESSAGE);
-                        g.setAmount(newAmount);
-                        tradeFrame.dispose(); // close the previous GoodsMenu
-                        GoodsMenu.goodsFrame.dispose();
-                        GoodsMenu.setGoodsMenu(); // open the updated GoodsMenu
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null,"Операція неможлива: від'ємний результат!", "Result error", JOptionPane.ERROR_MESSAGE);
-                        reset();
-                    }
+        OK.addActionListener(e -> {
+            boolean b = check();
+            if(b){
+                boolean right = calculate();
+                if(right){
+                    int newAmount = total;
+                    JOptionPane.showMessageDialog(null,"Чудово! Тепер одиниць на складі: "+newAmount, "Success operation", JOptionPane.INFORMATION_MESSAGE);
+                    g.setAmount(newAmount);
+                    tradeFrame.dispose(); // close the previous GoodsMenu
+                    GoodsMenu.goodsFrame.dispose();
+                    GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds()); // open the updated GoodsMenu
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Невірно введені дані! Спробуйте ще раз.", "Input error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Операція неможлива: від'ємний результат!", "Result error", JOptionPane.ERROR_MESSAGE);
                     reset();
                 }
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Невірно введені дані! Спробуйте ще раз.", "Input error", JOptionPane.ERROR_MESSAGE);
+                reset();
             }
         });
 
@@ -78,10 +71,12 @@ public class Trader {
     private boolean calculate(){
         boolean isLegal;
 
-        if(buyField.getText().isEmpty() || buyField.getText().isBlank()) buy=0;
-        else buy = Integer.parseInt(buyField.getText());
-        if(sellField.getText().isEmpty() || sellField.getText().isBlank()) sell=0;
-        else sell = Integer.parseInt(sellField.getText());
+        int buy;
+        if(buyField.getText().isEmpty() || buyField.getText().isBlank()) buy =0;
+    else buy = Integer.parseInt(buyField.getText());
+        int sell;
+        if(sellField.getText().isEmpty() || sellField.getText().isBlank()) sell =0;
+    else sell = Integer.parseInt(sellField.getText());
 
         int amount = good.amount;
         int rest = buy - sell;
@@ -103,9 +98,9 @@ public class Trader {
         }
         else if (sellField.getText().isEmpty() && buyField.getText().isEmpty())  return false;
         else{
-            buyIsCor = cycle(buyField.getText());
-            sellIsCor = cycle(sellField.getText());
-            isCorrect = buyIsCor && sellIsCor;
+          buyIsCor = cycle(buyField.getText());
+          sellIsCor = cycle(sellField.getText());
+          isCorrect = buyIsCor && sellIsCor;
         }
 
         return isCorrect;
