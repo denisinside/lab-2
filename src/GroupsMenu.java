@@ -108,21 +108,24 @@ public class GroupsMenu {
 
         JButton approve = new JButton("Підтвердити");
         approve.addActionListener(e -> {
-            g.name = name.getText();
-            g.description = description.getText();
-            if (Shop.groupArray.stream().noneMatch(group -> group.name.equalsIgnoreCase(g.name))) {
-            if (operation.equals("Редагування")){
-                for (Good good : Shop.goodsArray) if (good.groupName.equals(g.name)) good.groupName = name.getText();
-
-            } else {
-                    if (!g.name.equals("")) {
-                        root.add(new DefaultMutableTreeNode(g));
-                        Shop.groupArray.add(g);
+            String groupNewName = name.getText().trim();
+            if (!groupNewName.isEmpty()) {
+                if (groupNewName.equalsIgnoreCase(g.name) || Shop.groupArray.stream().noneMatch(group -> group.name.equalsIgnoreCase(name.getText()))) {
+                    g.name = groupNewName;
+                    g.description = description.getText();
+                    if (operation.equals("Редагування")) {
+                        for (Good good : Shop.goodsArray)
+                            if (good.groupName.equals(g.name)) good.groupName = name.getText();
+                    } else {
+                        if (!g.name.equals("")) {
+                            root.add(new DefaultMutableTreeNode(g));
+                            Shop.groupArray.add(g);
+                        }
                     }
-                 }
-            }else
-                JOptionPane.showMessageDialog(null,"Група з таким ім'ям вже є!", "Input error", JOptionPane.ERROR_MESSAGE);
-
+                } else
+                    JOptionPane.showMessageDialog(null, "Група з таким ім'ям вже є!", "Input error", JOptionPane.ERROR_MESSAGE);
+            } else
+                JOptionPane.showMessageDialog(null, "Введено пусте ім'я", "Input error", JOptionPane.ERROR_MESSAGE);
             editFrame.setVisible(false);
             productTree.updateUI();
         });

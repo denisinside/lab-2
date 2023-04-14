@@ -122,20 +122,22 @@ public class EditOrAddGood {
         }
     }
     public void editGood(String operation) {
+        String newGoodName = nameField.getText().trim();
 
-        good.setName(nameField.getText());
-        good.setDescription(descriptionArea.getText());
-        good.setProducer(producerField.getText());
-        good.setPrice(Integer.parseInt(priceField.getText()));
-        good.setGroupName((String) groupList.getSelectedItem());
-        if (!iconField.getText().equals(""))editGoodIcon();
-        if (Shop.goodsArray.stream().noneMatch(g -> g.name.equalsIgnoreCase(good.name))) {
-        if (operation.equals("Редагування")){
+        if (newGoodName.equalsIgnoreCase(good.name) || Shop.goodsArray.stream().noneMatch(g -> g.name.equalsIgnoreCase(newGoodName))) {
+            good.setName(newGoodName);
+            good.setDescription(descriptionArea.getText());
+            good.setProducer(producerField.getText());
+            good.setPrice(Integer.parseInt(priceField.getText()));
+            good.setGroupName((String) groupList.getSelectedItem());
+            if (!iconField.getText().equals(""))editGoodIcon();
+
+            if (operation.equals("Редагування")){
             JOptionPane.showMessageDialog(null, "Товар успішно змінено!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        }else{
+             }else{
                 JOptionPane.showMessageDialog(null, "Товар успішно додано!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 Shop.goodsArray.add(good);
-          }
+             }
         }else
             JOptionPane.showMessageDialog(null,"Товар з таким ім'ям вже є!", "Input error", JOptionPane.ERROR_MESSAGE);
 
