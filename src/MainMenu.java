@@ -65,9 +65,7 @@ public class MainMenu {
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
         mainPanel.add(east, BorderLayout.EAST);
         mainPanel.add(west, BorderLayout.WEST);
-        //mainPanel.setBorder(new BevelBorder(BevelBorder.RAISED,Color.CYAN, Color.BLACK));
         mainPanel.add(new JPanel(){{
-            //setBorder(BorderFactory.createEmptyBorder(30,30,80,30));
             setBackground(Color.decode("#ADA46A"));
             JLabel jl = new JLabel("M a d e   b y   S h v a c h k a   &   M a t i c h y k  co.");
             jl.setFont(new Font("Lucida Fax", Font.BOLD, 25));
