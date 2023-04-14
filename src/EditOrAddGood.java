@@ -77,8 +77,8 @@ public class EditOrAddGood {
                     editGood(operation);
                     editFrame.dispose();
                     if (GoodsMenu.goodsFrame != null && GoodsMenu.goodsFrame.isVisible()) {
-                        GoodsMenu.goodsFrame.dispose(); // close the previous GoodsMenu
-                        GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds()); // open the updated GoodsMenu
+                        GoodsMenu.goodsFrame.dispose();
+                        GoodsMenu.setGoodsMenu(GoodsMenu.goodsFrame.getBounds());
                     }
                 }
             }

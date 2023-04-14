@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,23 +31,27 @@ public class GoodsMenu {
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // ВЕРХНЯ ЧАСТИНА //
-        JPanel frameTop = new JPanel(new GridLayout(2,0));
-        frameTop.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8));
+        JPanel panelTop = new JPanel(new GridLayout(2,0));
+        panelTop.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/8));
+        panelTop.setBorder(new LineBorder(Color.CYAN, 4));
 
-        // ТЕКСТ "НАУКМА МАГАЗ" //
+        // ЗАГОЛОВК МЕНЮ //
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.decode("#BBB1FA"));
         JLabel logo = new JLabel("Вибір Товарів");
         logo.setForeground(Color.decode("#6358AD"));
         logo.setFont(new Font("Georgia", Font.BOLD, 40));
+        //logoPanel.setBorder(new EmptyBorder(0,0,10,0));
+
         logoPanel.add(logo);
-        frameTop.add(logoPanel);
+        panelTop.add(logoPanel);
 
 
-        // НИЖНЯ ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ //
-        JPanel searchPanel = new JPanel(new GridLayout(1,1));
+        // ПАНЕЛЬ З ПОШУКОМ І КНОПКАМИ //
+        JPanel searchPanel = new JPanel(new GridLayout(1,2));
+        JPanel explorePanel = new JPanel(new BorderLayout());
         JPanel buttonsPanel = new JPanel(new GridLayout(1,3));
-        //JPanel aPanel = new JPanel(new FlowLayout());
+        JPanel aPanel = new JPanel(new FlowLayout());
 
         ImageIcon i = new ImageIcon("search.jpg");
         Image im = i.getImage();
@@ -56,9 +63,9 @@ public class GoodsMenu {
         l.setIcon(i);
 
         searchField = new JTextField("Пошук...");
-        //aPanel.add(l);
-        //searchPanel.add(aPanel);
-        searchPanel.add(searchField);
+        aPanel.add(l);
+        explorePanel.add(aPanel,BorderLayout.WEST);
+        explorePanel.add(searchField, BorderLayout.CENTER);
 
         JButton searchButton = new JButton("Шукати");
         searchButton.addActionListener(startSearch);
@@ -107,16 +114,17 @@ public class GoodsMenu {
 
         back.addActionListener(goToMenu);
         buttonsPanel.add(back);
+        searchPanel.add(explorePanel);
         searchPanel.add(buttonsPanel);
-        frameTop.add(searchPanel);
+        panelTop.add(searchPanel);
 
         // СЕРЕДНЯ ЧАСТИНА З ТОВАРАМИ //
-
         int goodPanelWidth = goodsFrame.getWidth() / 5;
         int numColumns = goodsFrame.getWidth() / (goodPanelWidth + 20); // Add 20 for spacing
 
         middlePanel = new JPanel(new GridLayout(0, numColumns, 20, 20));
         middlePanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        middlePanel.setBackground(Color.decode("#FAF0B2"));
 
         goodPanels = new ArrayList<>();
         for (Good good : Shop.goodsArray){
@@ -125,18 +133,19 @@ public class GoodsMenu {
             goodPanels.add(g);
         }
 
-        JPanel frameMiddleWrapper = new JPanel(new BorderLayout());
-        frameMiddleWrapper.add(middlePanel, BorderLayout.NORTH);
-        middlePanel.setBackground(Color.decode("#FAF0B2"));
-        frameMiddleWrapper.setBackground(Color.decode("#FAF0B2"));
+        JPanel panelMiddleWrapper = new JPanel(new BorderLayout());
+        panelMiddleWrapper.add(middlePanel, BorderLayout.NORTH);
+        panelMiddleWrapper.setBackground(Color.decode("#FAF0B2"));
 
-        JScrollPane frameMiddleScroll = new JScrollPane(frameMiddleWrapper);
+        // ДОДАВАННЯ СКРОЛУ ДЛЯ СЕРЕДНЬОЇ ПАНЕЛІ //
+        JScrollPane frameMiddleScroll = new JScrollPane(panelMiddleWrapper);
         frameMiddleScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         frameMiddleScroll.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight() / 8 * 6));
 
         // НИЖНЯ ЧАСТИНА З КНОПКАМИ "ВИДАЛИТИ І ДОДАТИ" //
         JPanel frameBottom = new JPanel(new GridLayout(1,2));
         frameBottom.setPreferredSize(new Dimension(goodsFrame.getWidth(), goodsFrame.getHeight()/16));
+        frameBottom.setBorder(new LineBorder(Color.black, 4));
         JButton add = new JButton("Додати");
         add.addActionListener(e -> {
             if (Shop.groupArray.size() != 0) {
@@ -149,8 +158,8 @@ public class GoodsMenu {
         frameBottom.add(add);
         frameBottom.add(delete);
 
-        // А ЧОМУ НЕ ХЛОПЦЯ( //
-        goodsFrame.add(frameTop, BorderLayout.NORTH);
+        // ДОДАВАННЯ ПАНЕЛЕЙ ДО ВІКНА //
+        goodsFrame.add(panelTop, BorderLayout.NORTH);
         goodsFrame.add(frameMiddleScroll, BorderLayout.CENTER);
         goodsFrame.add(frameBottom, BorderLayout.SOUTH);
         goodsFrame.setVisible(true);
@@ -186,7 +195,9 @@ public class GoodsMenu {
             setLayout(new BorderLayout());
             this.good = good;
             setBackground(Color.GRAY);
-            setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            //setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 180, 0), Color.BLACK));
+            setBorder(new LineBorder(Color.ORANGE,3));
+            //setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
             setBackground(Color.decode("#ADA46A"));
             add(good.image, BorderLayout.NORTH);
