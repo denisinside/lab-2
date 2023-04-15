@@ -20,7 +20,7 @@ public class EditOrAddGood {
        if (operation.equals("Редагування")) editFrame = new JFrame("Редагування характеристик товару " + good.name);
        else editFrame = new JFrame("Додавання нового товару");
        editFrame.setLayout(new BorderLayout());
-        editFrame.setBounds(MainMenu.screenDimension.width/3,MainMenu.screenDimension.height/4,800,800);
+        editFrame.setBounds(MainMenu.screenDimension.width/5,MainMenu.screenDimension.height/6,800,800);
         editFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JPanel editPanel = new JPanel(new GridLayout(6, 2, 10, 30));
