@@ -57,7 +57,7 @@ public class GroupsMenu {
             }else if (selectedNode != null && selectedNode.getUserObject().getClass() == Good.class) {
                 Shop.goodsArray.removeIf( (g1) ->((Good) selectedNode.getUserObject()).name.equals(g1.name));
             }
-            root = new DefaultMutableTreeNode("АТБ.  Загальна вартість магазину: " + getShopValue() + " грн");
+            root = new DefaultMutableTreeNode("АТБ.  Загальна вартість складу: " + getShopValue() + " грн");
             tree.setNode();
             productTree.setModel(new javax.swing.tree.DefaultTreeModel(root));
 
@@ -97,16 +97,27 @@ public class GroupsMenu {
         editFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         editFrame.setBounds(groupsFrame.getX() + groupsFrame.getWidth()/4, groupsFrame.getY() + groupsFrame.getHeight()/4,groupsFrame.getWidth()/2, groupsFrame.getHeight()/2);
 
-        JPanel inputs = new JPanel(new GridLayout(2,2));
+        JPanel inputs = new JPanel(new GridLayout(4,0,0,10));
+        inputs.setBackground(Color.decode("#FAF0B2"));
         inputs.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-        inputs.add(new JLabel("НАЗВА "));
+        Font f = new Font("Arial Black", Font.BOLD, 18);
+        Font f1 = new Font("Arial Black", Font.BOLD, 14);
+
+        JLabel inputName = new JLabel("НАЗВА ");
+        JLabel inputDescription = new JLabel("ОПИС");
+        inputName.setFont(f);
+        inputDescription.setFont(f);
+        inputs.add(inputName);
         JTextField name = new JTextField(g.name);
+        name.setFont(f);
         inputs.add(name);
-        inputs.add(new JLabel("ОПИС "));
+        inputs.add(inputDescription);
         JTextArea description = new JTextArea(g.description);
+        description.setFont(f1);
         inputs.add(new JScrollPane(description));
 
         JButton approve = new JButton("Підтвердити");
+        approve.setFont(f1);
         approve.addActionListener(e -> {
             String groupNewName = name.getText().trim();
             if (!groupNewName.isEmpty()) {

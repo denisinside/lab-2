@@ -15,6 +15,7 @@ public class Good implements Serializable {
     String groupName;
     JLabel image;
     static JLabel defaultImg;
+    String link;
 
     public Good(String name, String description, String producer, int price, int amount, String groupName) {
         this.name = name;
@@ -33,10 +34,12 @@ public class Good implements Serializable {
 
         image = new JLabel(new ImageIcon(scaledImage));
     }
+
+
     static void setDefaultImage(String link) throws MalformedURLException {
         URL url = new URL(link);
         Image img = MainMenu.tk.createImage(url);
-
+        link=String.valueOf(url);
         Image scaledImage = img.getScaledInstance(150, 120, Image.SCALE_SMOOTH);
 
         defaultImg = new JLabel(new ImageIcon(scaledImage));
@@ -57,7 +60,7 @@ public class Good implements Serializable {
                 (description.contains("\n") ? "\n" : "") +
                 "\nОпис: \n" + description +
                 (description.contains("\n")  ? "\n" : "") +
-                "\nВиробник: " + producer  +
+                "\nВиробник: " + producer +
                 "\nЦіна за одиницю: " + price + " грн" +
                 "\nКількість на складі: " + amount +
                 "\nЗагальна вартість: " + String.format("%,d",getProductTypeValue()) + " грн";

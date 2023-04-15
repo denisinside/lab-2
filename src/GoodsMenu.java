@@ -13,7 +13,6 @@ import java.util.Locale;
 public class GoodsMenu {
 
     public static JFrame goodsFrame;
-    private static final Toolkit tk = Toolkit.getDefaultToolkit();
     private static JButton filterButton;
     private static JTextField searchField;
     private static JPopupMenu filterPopup;
@@ -40,7 +39,6 @@ public class GoodsMenu {
         JLabel logo = new JLabel("Вибір Товарів");
         logo.setForeground(Color.decode("#6358AD"));
         logo.setFont(new Font("Georgia", Font.BOLD, 40));
-        //logoPanel.setBorder(new EmptyBorder(0,0,10,0));
 
         logoPanel.add(logo);
         panelTop.add(logoPanel);

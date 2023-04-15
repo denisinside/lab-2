@@ -20,7 +20,7 @@ public class EditOrAddGood {
        if (operation.equals("Редагування")) editFrame = new JFrame("Редагування характеристик товару " + good.name);
        else editFrame = new JFrame("Додавання нового товару");
        editFrame.setLayout(new BorderLayout());
-        editFrame.setBounds(MainMenu.screenDimension.width/3,MainMenu.screenDimension.height/4,500,600);
+        editFrame.setBounds(MainMenu.screenDimension.width/3,MainMenu.screenDimension.height/4,800,800);
         editFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JPanel editPanel = new JPanel(new GridLayout(6, 2, 10, 30));
@@ -28,21 +28,26 @@ public class EditOrAddGood {
 
 
         Font font = new Font("Arial Black", Font.BOLD,20);
+        Font font1 = new Font("Arial Black", Font.BOLD,12);
         JLabel nameLabel = new JLabel("Ім'я:");
         nameLabel.setFont(font);
         nameField = new JTextField(g.name);
+        nameField.setFont(font);
 
         JLabel descriptionLabel = new JLabel("Опис:");
         descriptionLabel.setFont(font);
         descriptionArea = new JTextArea(g.description);
+        descriptionArea.setFont(font1);
 
         JLabel producerLabel = new JLabel("Виробник:");
         producerLabel.setFont(font);
         producerField = new JTextField(g.producer);
+        producerField.setFont(font);
 
         JLabel priceLabel = new JLabel("Ціна:");
         priceLabel.setFont(font);
         priceField = new JTextField(String.valueOf(g.price));
+        priceField.setFont(font);
 
         JLabel groupLabel = new JLabel("Група:");
         groupLabel.setFont(font);
@@ -54,6 +59,7 @@ public class EditOrAddGood {
         JLabel iconLabel = new JLabel("Іконка:");
         iconLabel.setFont(font);
         iconField = new JTextField();
+        nameField.setFont(new Font("Arial Black", Font.BOLD,12));
 
         editPanel.add(nameLabel);
         editPanel.add(nameField);

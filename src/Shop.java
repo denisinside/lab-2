@@ -45,7 +45,7 @@ public class Shop {
                 "Вихідна напруга: 5В", "Hoco", 1199, 6510, electronics.name);
         powerbanks.setImage("https://technomarket.biz.ua/8674-thickbox_default/power-bank-hoco-j84-10000mah-.jpg");
 
-        Good earphones = new Good("Навушники", "Тип навушників: TWS (2 окремо)" +
+        Good earphones = new Good("Навушники", "Тип навушників: TWS (2 окремо)\n" +
                 "Тип підключення: Бездротові\n" +
                 "Інтерфейс під'єднання: Bluetooth", "Apple corp.", 759, 1578,  electronics.name);
         earphones.setImage("https://c.ua/image/cache/catalog/BlackFriday/111/12345entaaornpl-800x800.jpg");
@@ -61,7 +61,8 @@ public class Shop {
         sofas.setImage("https://cdn-images.article.com/products/SKU2128/2890x1500/image88982.jpg?fit=max&w=1200&q=100");
 
         Good chairs = new Good("Табуретки", "Матеріал каркаса: масив дерева\n"+
-                "Оббивка: ДСП без оббивки\n"+"Транспортувальний стан: зібраний", "Київсбкий стандарт", 699, 3565,  furniture.name);
+                "Оббивка: ДСП без оббивки\n"+
+                "Транспортувальний стан: зібраний", "Київсбкий стандарт", 699, 3565,  furniture.name);
         chairs.setImage("https://www.ikea.com/us/en/images/products/lerhamn-chair-black-brown-vittaryd-beige__0728160_pe736117_s5.jpg?f=s");
 
         Good microwaves = new Good("Мікрохвильовки", "Об`єм: 23 л\n"+
