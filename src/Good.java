@@ -55,12 +55,12 @@ public class Good implements Serializable {
     public String toStringPanel(){
         return  name +
                 (description.contains("\n") ? "\n" : "") +
-                "\n Опис: " + description +
+                "\nОпис: \n" + description +
                 (description.contains("\n")  ? "\n" : "") +
-                "\n Виробник: " + producer  +
-                "\n Ціна за одиницю: " + price + " грн" +
-                "\n Кількість на складі: " + amount +
-                "\n Загальна вартість: " + String.format("%,d",getProductTypeValue()) + " грн";
+                "\nВиробник: " + producer  +
+                "\nЦіна за одиницю: " + price + " грн" +
+                "\nКількість на складі: " + amount +
+                "\nЗагальна вартість: " + String.format("%,d",getProductTypeValue()) + " грн";
 
     }
     public void setName(String name) {

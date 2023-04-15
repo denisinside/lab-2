@@ -115,7 +115,7 @@ public class EditOrAddGood {
     }
     public void editGoodIcon(){
         try {
-            if (iconField.getText() != null) good.setImage(iconField.getText());
+             good.setImage(iconField.getText());
         }catch (MalformedURLException e){
             JOptionPane.showMessageDialog(GoodsMenu.goodsFrame,"Посилання не підходить. Встановлено картинку за замовчуванням.");
             good.image = new JLabel(Good.defaultImg.getIcon());
@@ -130,7 +130,7 @@ public class EditOrAddGood {
             good.setProducer(producerField.getText());
             good.setPrice(Integer.parseInt(priceField.getText()));
             good.setGroupName((String) groupList.getSelectedItem());
-            if (!iconField.getText().equals(""))editGoodIcon();
+            editGoodIcon();
 
             if (operation.equals("Редагування")){
                 JOptionPane.showMessageDialog(null, "Товар успішно змінено!", "Success", JOptionPane.INFORMATION_MESSAGE);

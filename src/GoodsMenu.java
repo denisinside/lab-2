@@ -14,7 +14,6 @@ public class GoodsMenu {
 
     public static JFrame goodsFrame;
     private static final Toolkit tk = Toolkit.getDefaultToolkit();
-    private static final Dimension screenDimension = tk.getScreenSize();
     private static JButton filterButton;
     private static JTextField searchField;
     private static JPopupMenu filterPopup;
@@ -195,9 +194,7 @@ public class GoodsMenu {
             setLayout(new BorderLayout());
             this.good = good;
             setBackground(Color.GRAY);
-            //setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 180, 0), Color.BLACK));
             setBorder(new LineBorder(Color.ORANGE,3));
-            //setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             setPreferredSize(new Dimension(goodsFrame.getWidth()/5,goodsFrame.getHeight()/3));
             setBackground(Color.decode("#ADA46A"));
             add(good.image, BorderLayout.NORTH);
