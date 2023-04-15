@@ -256,7 +256,7 @@ public class GoodsMenu {
             middlePanel.removeAll();
             while (goodPanelIterator.hasNext()){
                 GoodPanel gp = goodPanelIterator.next();
-                if (gp.good.name.toLowerCase().startsWith(searched.toLowerCase())){
+                if (gp.good.name.toLowerCase().contains(searched.toLowerCase())){
                     middlePanel.add(gp);
                 }
             }
