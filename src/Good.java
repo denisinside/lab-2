@@ -15,7 +15,7 @@ public class Good implements Serializable {
     String groupName;
     JLabel image;
     static JLabel defaultImg;
-    String link;
+    String link1;
 
     public Good(String name, String description, String producer, int price, int amount, String groupName) {
         this.name = name;
@@ -29,7 +29,7 @@ public class Good implements Serializable {
     public void setImage(String link) throws MalformedURLException{
         URL url = new URL(link);
         Image img = MainMenu.tk.createImage(url);
-
+        link1 = url.toString();
         Image scaledImage = img.getScaledInstance(150, 120, Image.SCALE_SMOOTH);
 
         image = new JLabel(new ImageIcon(scaledImage));

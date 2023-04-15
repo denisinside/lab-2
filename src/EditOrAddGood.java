@@ -58,7 +58,7 @@ public class EditOrAddGood {
         if (!good.groupName.equals("")) groupLabel.setForeground(Color.BLUE);
         JLabel iconLabel = new JLabel("Іконка:");
         iconLabel.setFont(font);
-        iconField = new JTextField();
+        iconField = new JTextField(g.link1);
         nameField.setFont(new Font("Arial Black", Font.BOLD,12));
 
         editPanel.add(nameLabel);
