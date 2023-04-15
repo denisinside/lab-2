@@ -21,10 +21,10 @@ public class GroupsMenu {
         groupsFrame = new JFrame("Групи товарів");
 
         groupsFrame.addWindowListener(new ShopWindowListener());
-
         groupsFrame.setBounds(bounds);
         groupsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         groupsFrame.setLayout(new BorderLayout());
+        groupsFrame.setIconImage(Shop.icon);
 
          tree = new ProductGroupTree();
 
@@ -147,6 +147,7 @@ public class GroupsMenu {
 
         editFrame.add(inputs,BorderLayout.CENTER);
         editFrame.add(approve, BorderLayout.SOUTH);
+        editFrame.setIconImage(Shop.icon);
         editFrame.setVisible(true);
     }
 

@@ -104,6 +104,7 @@ public class EditOrAddGood {
 
         editFrame.add(editPanel, BorderLayout.CENTER);
         editFrame.add(buttonPanel,BorderLayout.SOUTH);
+        editFrame.setIconImage(Shop.icon);
         editFrame.setVisible(true);
     }
     private boolean isCorrectInput(){
@@ -121,7 +122,7 @@ public class EditOrAddGood {
     }
     public void editGoodIcon(){
         try {
-             good.setImage(iconField.getText());
+            good.setImage(iconField.getText());
         }catch (MalformedURLException e){
             JOptionPane.showMessageDialog(GoodsMenu.goodsFrame,"Посилання не підходить. Встановлено картинку за замовчуванням.");
             good.image = new JLabel(Good.defaultImg.getIcon());

@@ -27,6 +27,7 @@ public class GoodsMenu {
         goodsFrame.setLayout(new BorderLayout());
         goodsFrame.setBounds(bounds);
         goodsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        goodsFrame.setIconImage(Shop.icon);
 
         // ВЕРХНЯ ЧАСТИНА //
         JPanel panelTop = new JPanel(new GridLayout(2,0));

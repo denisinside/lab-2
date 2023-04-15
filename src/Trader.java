@@ -67,6 +67,7 @@ public class Trader {
         tradeFrame.add(infoPanel, BorderLayout.NORTH);
         tradeFrame.add(tradePanel, BorderLayout.CENTER);
         tradeFrame.add(buttonPanel, BorderLayout.SOUTH);
+        tradeFrame.setIconImage(Shop.icon);
         tradeFrame.setVisible(true);
     }
 

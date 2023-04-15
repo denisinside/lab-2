@@ -20,17 +20,15 @@ public class MainMenu {
         mainFrame.setBounds(screenDimension.width/5,screenDimension.height/7,900,800);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        ImageIcon icon = new ImageIcon("store.png");
-        Image image = icon.getImage();
-        image = image.getScaledInstance(100,100, Image.SCALE_SMOOTH);
-        icon = new ImageIcon(image);
+
+        mainFrame.setIconImage(Shop.icon);
 
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.decode("#BBB1FA"));
         JLabel logo = new JLabel("S T O R E  S I M U L A T O R");
         logo.setForeground(Color.decode("#6358AD"));
         logoPanel.setBorder(new BevelBorder(BevelBorder.RAISED,Color.CYAN, Color.BLACK));
-        logo.setIcon(icon);
+        logo.setIcon(new ImageIcon(Shop.icon));
         logo.setIconTextGap(40);
         logo.setFont(new Font("Lucida Fax", Font.BOLD, 45));
         logoPanel.add(logo);
@@ -84,7 +82,7 @@ public class MainMenu {
         public void actionPerformed(ActionEvent e) {
 
             mainFrame.setVisible(false);
-            GoodsMenu.setGoodsMenu(new Rectangle(screenDimension.width/10,screenDimension.height/10, 1300,900));
+            GoodsMenu.setGoodsMenu(mainFrame.getBounds());
 
         }
     };
