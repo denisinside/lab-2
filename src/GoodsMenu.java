@@ -201,6 +201,8 @@ public class GoodsMenu {
             JTextArea goodDescription = new JTextArea(good.toStringPanel());
             goodDescription.setEditable(false);
             goodDescription.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+            goodDescription.setLineWrap(true);
+            goodDescription.setWrapStyleWord(true);
             JScrollPane description = new JScrollPane(goodDescription);
             add(description, BorderLayout.CENTER);
 

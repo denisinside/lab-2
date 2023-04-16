@@ -20,7 +20,7 @@ public class EditOrAddGood {
        if (operation.equals("Редагування")) editFrame = new JFrame("Редагування характеристик товару " + good.name);
        else editFrame = new JFrame("Додавання нового товару");
        editFrame.setLayout(new BorderLayout());
-        editFrame.setBounds(MainMenu.screenDimension.width/5,MainMenu.screenDimension.height/6,800,800);
+        editFrame.setBounds(MainMenu.screenDimension.width/5,0,800,800);
         editFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JPanel editPanel = new JPanel(new GridLayout(6, 2, 10, 30));
@@ -38,6 +38,8 @@ public class EditOrAddGood {
         descriptionLabel.setFont(font);
         descriptionArea = new JTextArea(g.description);
         descriptionArea.setFont(font1);
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
 
         JLabel producerLabel = new JLabel("Виробник:");
         producerLabel.setFont(font);
@@ -55,6 +57,7 @@ public class EditOrAddGood {
         for(Group gr: Shop.groupArray){
             groupList.addItem(gr.name);
         }
+        groupList.setSelectedItem(g.groupName);
         if (!good.groupName.equals("")) groupLabel.setForeground(Color.BLUE);
         JLabel iconLabel = new JLabel("Іконка:");
         iconLabel.setFont(font);
