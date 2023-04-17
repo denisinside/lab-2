@@ -64,6 +64,9 @@ public class Trader {
         tradePanel.add(sellField);
         buttonPanel.add(OK);
         infoPanel.add(infoLabel);
+        infoPanel.setBackground(Color.decode("#FAF0B2"));
+        tradePanel.setBackground(Color.decode("#FAF0B2"));
+        buttonPanel.setBackground(Color.decode("#FAF0B2"));
         tradeFrame.add(infoPanel, BorderLayout.NORTH);
         tradeFrame.add(tradePanel, BorderLayout.CENTER);
         tradeFrame.add(buttonPanel, BorderLayout.SOUTH);

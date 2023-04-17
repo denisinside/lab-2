@@ -58,7 +58,6 @@ public class EditOrAddGood {
             groupList.addItem(gr.name);
         }
         groupList.setSelectedItem(g.groupName);
-        if (!good.groupName.equals("")) groupLabel.setForeground(Color.BLUE);
         JLabel iconLabel = new JLabel("Іконка:");
         iconLabel.setFont(font);
         iconField = new JTextField(g.link1);
@@ -104,6 +103,8 @@ public class EditOrAddGood {
         });
         buttonPanel.add(approveButton);
         buttonPanel.add(reset);
+        editPanel.setBackground(Color.decode("#FAF0B2"));
+        buttonPanel.setBackground(Color.decode("#FAF0B2"));
 
         editFrame.add(editPanel, BorderLayout.CENTER);
         editFrame.add(buttonPanel,BorderLayout.SOUTH);
@@ -129,6 +130,7 @@ public class EditOrAddGood {
         }catch (MalformedURLException e){
             JOptionPane.showMessageDialog(GoodsMenu.goodsFrame,"Посилання не підходить. Встановлено картинку за замовчуванням.");
             good.image = new JLabel(Good.defaultImg.getIcon());
+            good.link1 = "";
         }
     }
     public void editGood(String operation) {

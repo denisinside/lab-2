@@ -70,7 +70,7 @@ public class GoodsMenu {
         buttonsPanel.add(searchButton);
         JButton back = new JButton("Назад");
 
-        filterButton = new JButton("Фільтр");
+        filterButton = new JButton("Сортування");
         buttonsPanel.add(filterButton);
         filterButton.addActionListener(e -> {
             Point buttonLocationOnScreen = filterButton.getLocationOnScreen();

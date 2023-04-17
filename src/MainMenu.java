@@ -17,7 +17,7 @@ public class MainMenu {
         mainPanel.setBackground(Color.decode("#6358AD"));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10,30,10,30));
 
-        mainFrame.setBounds(screenDimension.width/5,screenDimension.height/7,900,800);
+        mainFrame.setBounds(screenDimension.width/5,30,900,800);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
